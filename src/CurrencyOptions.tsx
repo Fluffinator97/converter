@@ -5,11 +5,14 @@ interface Props {
 interface State {
     error: null
     isLoaded: boolean
-    options: []
+    options:any
     fromCurrency: string
     toCurrency: string
+    amount: number
+    exchangeRate: number
 }
 export default class CurrencyOptions extends React.Component<Props, State> {
+
     constructor(props: Props) {
         super(props)
         this.state = {
@@ -17,7 +20,10 @@ export default class CurrencyOptions extends React.Component<Props, State> {
             isLoaded: false,
             options: [],
             fromCurrency: '',
-            toCurrency: ''
+            toCurrency: '',
+            amount: 1,
+            exchangeRate:1,
+            
         }
     }
 
@@ -27,11 +33,14 @@ export default class CurrencyOptions extends React.Component<Props, State> {
             .then(
                 data => {
                     console.log(data.base)
+                    const defaultCurrency = Object.keys(data.rates)[0]
+                    
                     this.setState({
                         isLoaded: true,
                         fromCurrency: data.base,
-                        toCurrency: Object.keys(data.rates)[0],
-                        options: data.rates,
+                        toCurrency: defaultCurrency,
+                        options:[...Object.keys(data.rates),data.base],
+                        exchangeRate:(data.rates[defaultCurrency])
                     })
 
 
@@ -62,20 +71,33 @@ export default class CurrencyOptions extends React.Component<Props, State> {
         } else if (!this.state.isLoaded) {
             return <div>Loading...</div>
         } else {
+            let fromAmount:number, toAmount:number
+            if (this.state.fromCurrency) {
+              fromAmount = this.state.amount
+              toAmount = this.state.amount * this.state.exchangeRate
+              console.log(toAmount,this.state.fromCurrency)
+            }
+            else {
+              toAmount = this.state.amount
+              fromAmount = this.state.amount / this.state.exchangeRate
+              console.log('test')
+            }
             return (
                 <div>
                     <CurrencyRow
                         name={'from'}
-                        currencyOptions={Object.keys(this.state.options)}
+                        currencyOptions={(this.state.options)}
                         selectedCurrency={this.state.fromCurrency}
                         onChangeCurrency={(event) => this.selectHandler(event)}
+                        amount={fromAmount}
                     />
-                    <div>=</div>
+                    <div>=</div> 
                     <CurrencyRow
                         name={'to'}
-                        currencyOptions={Object.keys(this.state.options)}
+                        currencyOptions={(this.state.options)}
                         selectedCurrency={this.state.toCurrency}
                         onChangeCurrency={(event) => this.selectHandler(event)}
+                        amount={toAmount}
                     />
                 </div >)
         }
