@@ -1,11 +1,12 @@
 import React from 'react';
-import logo from './logo.svg';
+import CurrencyOptions from './CurrencyOptions';
 import './App.css';
+
 
 function App() {
   return (
     <div className="App">
-      Hi
+      <CurrencyOptions />
     </div>
   );
 }
