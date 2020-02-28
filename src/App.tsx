@@ -1,6 +1,6 @@
 import React from 'react';
-import CurrencyOptions from './CurrencyOptions';
 import './App.css';
+import CurrencyOptions from './CurrencyOptions';
 
 
 function App() {
