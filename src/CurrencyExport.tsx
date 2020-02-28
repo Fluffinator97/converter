@@ -24,13 +24,7 @@ export default class CurrencyExport extends React.Component<Props, State> {
     render() {
         return (
             <div>
-                <CurrencyRow
-                    currencyOptions={this.props.currencyOptions}
-                />
-                <div>=</div>
-                <CurrencyRow
-                    currencyOptions={this.props.currencyOptions}
-                />
+                
             </div >)
 
     }
