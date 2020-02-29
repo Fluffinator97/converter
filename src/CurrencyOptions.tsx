@@ -1,11 +1,13 @@
 import React from 'react'
 import CurrencyRow from './CurrencyRow'
 interface Props {
+
 }
 interface State {
     error: null
     isLoaded: boolean
-    options:any
+    amountInFromCurrency: boolean
+    options: string[]
     fromCurrency: string
     toCurrency: string
     amount: number
@@ -18,12 +20,13 @@ export default class CurrencyOptions extends React.Component<Props, State> {
         this.state = {
             error: null,
             isLoaded: false,
+            amountInFromCurrency: true,
             options: [],
             fromCurrency: '',
             toCurrency: '',
             amount: 1,
-            exchangeRate:1,
-            
+            exchangeRate: 1,
+
         }
     }
 
@@ -34,13 +37,13 @@ export default class CurrencyOptions extends React.Component<Props, State> {
                 data => {
                     console.log(data.base)
                     const defaultCurrency = Object.keys(data.rates)[0]
-                    
+
                     this.setState({
                         isLoaded: true,
                         fromCurrency: data.base,
                         toCurrency: defaultCurrency,
-                        options:[...Object.keys(data.rates),data.base],
-                        exchangeRate:(data.rates[defaultCurrency])
+                        options: [...Object.keys(data.rates), data.base],
+                        exchangeRate: (data.rates[defaultCurrency])
                     })
 
 
@@ -55,51 +58,98 @@ export default class CurrencyOptions extends React.Component<Props, State> {
             )
     }
 
-    selectHandler = (event: { target: { name: string; value: any } }) => {
+    update(fromCurrency: string | null, toCurrency: string | null) {
+        if (fromCurrency != null && toCurrency != null) {
+            fetch(`https://api.exchangeratesapi.io/latest?base=${fromCurrency}&symbols=${toCurrency}`)
+            .then(res => res.json())
+            .then(data => {
+                this.setState({ exchangeRate: (data.rates[toCurrency]) })
+            })
+        }
+
+    }
+
+    changeCurrency = (event: { target: { name: string; value: string } }) => {
+
         if (event.target.name === "from") {
             this.setState({ fromCurrency: event.target.value })
-            console.log('read')
+            console.log(event.target.value, this.state.toCurrency)
+            this.update(event.target.value, this.state.toCurrency)
         }
-        if (event.target.name  === "to") {
+        if (event.target.name === "to") {
             this.setState({ toCurrency: event.target.value })
+            console.log(this.state.fromCurrency, event.target.value)
+            this.update(this.state.fromCurrency, event.target.value)
         }
+
     }
+
+    changeAmount = (event: { target: { name: string; value: number } }) => {
+        if (event.target.name === "fromInput") {
+            this.setState({
+                amount: event.target.value,
+                amountInFromCurrency: true
+            })
+        }
+        if (event.target.name === "toInput") {
+            this.setState({
+                amount: event.target.value,
+                amountInFromCurrency: false
+            })
+        }
+
+    }
+
 
     render() {
         if (this.state.error) {
             return <div>Error</div>
         } else if (!this.state.isLoaded) {
             return <div>Loading...</div>
-        } else {
-            let fromAmount:number, toAmount:number
-            if (this.state.fromCurrency) {
-              fromAmount = this.state.amount
-              toAmount = this.state.amount * this.state.exchangeRate
-              console.log(toAmount,this.state.fromCurrency)
+        }
+
+        else {
+            let fromAmount: number, toAmount: number
+            if (this.state.amountInFromCurrency) {
+                fromAmount = this.state.amount
+                toAmount = this.state.amount * this.state.exchangeRate
+
             }
             else {
-              toAmount = this.state.amount
-              fromAmount = this.state.amount / this.state.exchangeRate
-              console.log('test')
+                toAmount = this.state.amount
+                fromAmount = this.state.amount / this.state.exchangeRate
+
             }
             return (
-                <div>
+                <div style={container}>
                     <CurrencyRow
                         name={'from'}
+                        nameInput={'fromInput'}
                         currencyOptions={(this.state.options)}
                         selectedCurrency={this.state.fromCurrency}
-                        onChangeCurrency={(event) => this.selectHandler(event)}
+                        onChangeCurrency={(event) => this.changeCurrency(event)}
+                        onChangeAmount={(event) => this.changeAmount(event)}
                         amount={fromAmount}
                     />
-                    <div>=</div> 
+                    <div>=</div>
                     <CurrencyRow
                         name={'to'}
+                        nameInput={'toInput'}
                         currencyOptions={(this.state.options)}
                         selectedCurrency={this.state.toCurrency}
-                        onChangeCurrency={(event) => this.selectHandler(event)}
+                        onChangeCurrency={(event) => this.changeCurrency(event)}
+                        onChangeAmount={(event) => this.changeAmount(event)}
                         amount={toAmount}
                     />
                 </div >)
         }
     }
+}
+
+const container: React.CSSProperties = {
+    display: 'flex',
+    flexDirection: 'row',
+    margin: '0.5em',
+    justifyContent: 'center',
+
 }

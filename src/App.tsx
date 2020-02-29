@@ -6,7 +6,7 @@ import CurrencyOptions from './CurrencyOptions';
 function App() {
   return (
     <div className="App">
-      <CurrencyOptions />
+      <CurrencyOptions/>
     </div>
   );
 }
