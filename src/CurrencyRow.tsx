@@ -37,13 +37,3 @@ const container: React.CSSProperties = {
     maxWidth: '40vw',
     minWidth: '2rem'
  }
-
-const color: React.CSSProperties = {
-    color: 'white'
-}
-
-const image: React.CSSProperties = {
-    height: '100%',
-    width: '100%',
-    objectFit: 'cover'
-}
