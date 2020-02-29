@@ -1,5 +1,6 @@
 import React from 'react'
 import CurrencyRow from './CurrencyRow'
+import SyncIcon from '@material-ui/icons/Sync'
 interface Props {
 
 }
@@ -61,10 +62,10 @@ export default class CurrencyOptions extends React.Component<Props, State> {
     update(fromCurrency: string | null, toCurrency: string | null) {
         if (fromCurrency != null && toCurrency != null) {
             fetch(`https://api.exchangeratesapi.io/latest?base=${fromCurrency}&symbols=${toCurrency}`)
-            .then(res => res.json())
-            .then(data => {
-                this.setState({ exchangeRate: (data.rates[toCurrency]) })
-            })
+                .then(res => res.json())
+                .then(data => {
+                    this.setState({ exchangeRate: (data.rates[toCurrency]) })
+                })
         }
 
     }
@@ -131,7 +132,7 @@ export default class CurrencyOptions extends React.Component<Props, State> {
                         onChangeAmount={(event) => this.changeAmount(event)}
                         amount={fromAmount}
                     />
-                    <div>=</div>
+                <SyncIcon/>
                     <CurrencyRow
                         name={'to'}
                         nameInput={'toInput'}
@@ -151,5 +152,6 @@ const container: React.CSSProperties = {
     flexDirection: 'row',
     margin: '0.5em',
     justifyContent: 'center',
+    alignItems: 'center',
 
 }
