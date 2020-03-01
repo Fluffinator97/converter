@@ -3,7 +3,6 @@ import CurrencyRow from './CurrencyRow'
 import Flag from './Flag'
 import SyncIcon from '@material-ui/icons/Sync'
 interface Props {
-
 }
 interface State {
     error: null
@@ -43,13 +42,12 @@ export default class CurrencyOptions extends React.Component<Props, State> {
         ])
             .then((responses) => {
                 // Get a JSON object from each of the responses
-                return responses.map((response) => {
-                    return response.json();
-                });
+                return responses.map((res) => {
+                    return res.json()
+                })
             }).then(data => {
                 data[0].then(dataSet1 => {
                     const defaultCurrency = Object.keys(dataSet1.rates)[0]
-
                     this.setState({
                         isLoaded: true,
                         fromCurrency: dataSet1.base,
@@ -57,22 +55,13 @@ export default class CurrencyOptions extends React.Component<Props, State> {
                         options: [...Object.keys(dataSet1.rates), dataSet1.base],
                         exchangeRate: (dataSet1.rates[defaultCurrency])
                     })
-                    console.log(this.state.toCurrency)
                 })
                 data[1].then(dataSet2 => {
-                    const toCountry = dataSet2.find((element: { currencies: { code: string }[] }) => element.currencies[0].code === this.state.toCurrency)
-                    const fromCountry = dataSet2.find((element: { currencies: { code: string }[] }) => element.currencies[0].code === this.state.fromCurrency)
                     this.setState({
-                        fromFlag: fromCountry.flag,
-                        toFlag: toCountry.flag
+                        fromFlag: this.currency2flag(this.state.fromCurrency, dataSet2),
+                        toFlag: this.currency2flag(this.state.toCurrency, dataSet2)
                     })
-
-                    console.log(toCountry, fromCountry)
-
-
                 })
-                // Log the data to the console
-                // You would do something with both sets of data here
             }).catch(error => {
                 this.setState({
                     isLoaded: true,
@@ -82,68 +71,62 @@ export default class CurrencyOptions extends React.Component<Props, State> {
             });
     }
 
-
-    // componentDidMount() {
-    //     fetch("https://api.exchangeratesapi.io/latest")
-    //         .then(res => res.json())
-    //         .then(
-    //             data => {
-    //                 console.log(data.base)
-    //                 const defaultCurrency = Object.keys(data.rates)[0]
-
-    //                 this.setState({
-    //                     isLoaded: true,
-    //                     fromCurrency: data.base,
-    //                     toCurrency: defaultCurrency,
-    //                     options: [...Object.keys(data.rates), data.base],
-    //                     exchangeRate: (data.rates[defaultCurrency])
-    //                 })
-
-
-    //             }
-    //             ,
-    //             (error) => {
-
-    //                 this.setState({
-    //                     isLoaded: true,
-    //                     error
-    //                 })
-    //             }
-    //         )
-    // }
-
-
-
-
-
-
-
-
+    currency2flag(currency: string, dataSet: any[]) {
+        let flag;
+        switch (currency) {
+            case 'AUD':
+                flag = dataSet.find((element: { name: string }) => element.name === 'Australia').flag
+                break;
+            case 'USD':
+                flag = (dataSet.find((element: { name: string }) => element.name === 'United States of America')).flag
+                break;
+            case 'CHF':
+                flag = dataSet.find((element: { name: string }) => element.name === 'Switzerland').flag
+                break;
+            case 'EUR':
+                flag = 'https://www.countryflags.io/EU/shiny/64.png'
+                break;
+            default:
+                flag = dataSet.find((element: { currencies: { code: string }[] }) => element.currencies[0].code === currency).flag
+        }
+        return flag
+    }
 
     update(fromCurrency: string | null, toCurrency: string | null) {
         if (fromCurrency != null && toCurrency != null) {
-            fetch(`https://api.exchangeratesapi.io/latest?base=${fromCurrency}&symbols=${toCurrency}`)
-                .then(res => res.json())
-                .then(dataSet1 => {
-                    this.setState({ exchangeRate: (dataSet1.rates[toCurrency]) })
+            Promise.all([
+                fetch(`https://api.exchangeratesapi.io/latest?base=${fromCurrency}&symbols=${toCurrency}`),
+                fetch('https://restcountries.eu/rest/v2/all?fields=name;currencies;flag')])
+                .then((responses) => {
+                    // Get a JSON object from each of the responses
+                    return responses.map((res) => {
+                        return res.json()
+                    })
+                })
+                .then(data => {
+                    data[0].then((dataSet1) => {
+                        console.log(dataSet1)
+                        this.setState({ exchangeRate: (dataSet1.rates[toCurrency]) })
+                    })
+                    data[1].then(dataSet2 => {
+                        this.setState({
+                            fromFlag: this.currency2flag(fromCurrency, dataSet2),
+                            toFlag: this.currency2flag(toCurrency, dataSet2)
+                        })
+                    })
                 })
         }
-
     }
 
     changeCurrency = (event: { target: { name: string; value: string } }) => {
-
         if (event.target.name === "from") {
             this.setState({ fromCurrency: event.target.value })
-            console.log(event.target.value, this.state.toCurrency)
             this.update(event.target.value, this.state.toCurrency)
         }
         if (event.target.name === "to") {
             this.setState({ toCurrency: event.target.value })
-            console.log(this.state.fromCurrency, event.target.value)
             this.update(this.state.fromCurrency, event.target.value)
         }
-
     }
 
     changeAmount = (event: { target: { name: string; value: number } }) => {
@@ -161,7 +144,6 @@ export default class CurrencyOptions extends React.Component<Props, State> {
         }
 
     }
-
 
     render() {
         if (this.state.error) {
@@ -181,11 +163,11 @@ export default class CurrencyOptions extends React.Component<Props, State> {
                 fromAmount = this.state.amount / this.state.exchangeRate
             }
 
-
             return (
                 <div style={container}>
                     <Flag
-                        flagImage={this.state.fromFlag} />
+                        flagImage={this.state.fromFlag}
+                    />
                     <CurrencyRow
                         name={'from'}
                         nameInput={'fromInput'}
@@ -206,7 +188,8 @@ export default class CurrencyOptions extends React.Component<Props, State> {
                         amount={toAmount}
                     />
                     <Flag
-                        flagImage={this.state.toFlag} />
+                        flagImage={this.state.toFlag}
+                    />
                 </div >)
         }
     }
