@@ -1,5 +1,4 @@
 import React from 'react'
-import { Container } from '@material-ui/core'
 
 interface Props {
     flagImage: string
@@ -18,9 +17,6 @@ export default function Flag(props: Props) {
 const container: React.CSSProperties = {
     width: '3rem',
     height: '2rem',
-    borderRadius:'50%',
-    border:'1px solid #021a40'
-
 }
 const flagStyle: React.CSSProperties = {
     width: '100%',

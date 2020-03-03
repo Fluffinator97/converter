@@ -2,6 +2,7 @@ import React from 'react'
 import CurrencyRow from './CurrencyRow'
 import Flag from './Flag'
 import SyncIcon from '@material-ui/icons/Sync'
+import EUR from './assets/EUR.svg'
 interface Props {
 }
 interface State {
@@ -84,7 +85,7 @@ export default class CurrencyOptions extends React.Component<Props, State> {
                 flag = dataSet.find((element: { name: string }) => element.name === 'Switzerland').flag
                 break;
             case 'EUR':
-                flag = 'https://www.countryflags.io/EU/shiny/64.png'
+                flag = EUR
                 break;
             default:
                 flag = dataSet.find((element: { currencies: { code: string }[] }) => element.currencies[0].code === currency).flag
