@@ -205,9 +205,10 @@ const container: React.CSSProperties = {
     justifyContent: 'center',
     alignItems: 'center',
 }
+
 const inverted: React.CSSProperties = {
     display: 'flex',
-    flexDirection: 'row',
+    flexDirection: 'row-reverse',
     margin: '0.5em',
     justifyContent: 'center',
     alignItems: 'center',
