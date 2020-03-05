@@ -1,4 +1,4 @@
-html {
+/* html {
   height: 100%;
   background: url(./assets/bck1.png) no-repeat center center fixed;
   -webkit-background-size: cover;
@@ -7,8 +7,47 @@ html {
   background-size: cover;
   width: 100vw;
   
+} */
+html.color-theme-in-transition,
+html.color-theme-in-transition *,
+html.color-theme-in-transition *:before,
+html.color-theme-in-transition *:after {
+  transition: all 750ms !important;
+  transition-delay: 0 !important;
 }
 
-body {
-  margin: 0;
+html {
+  /* background: url(./assets/bck1.png) no-repeat center center fixed; */
+  /* background-size: cover; */
+  /* global colors */
+  --primaryTheme: #e52863;
+
+  --primaryBg: #fff ;
+  --primaryBgSize: contain;
+
+  --primaryText: #212121;
+  --secondaryText: #7b7b7b;
+
+  --primaryButtonText: #fff;
+
+  --primaryBorderBg: #efefef;
+
+  --activeSelectionBg: rgba(162, 162, 162, 0.1);
+
+  --primaryShadowBg: rgba(204, 204, 204, 0.7);
+  height: 100%;
+
+}
+
+html[data-theme="dark"] {
+  /* global colors */
+  --primaryTheme: #e52863;
+  --primaryBg: #1a1a1d;
+  --primaryBgSize: contain;
+  --primaryText: rgba(255, 255, 255, 0.8);
+  --secondaryText: rgba(255, 255, 255, 0.6);
+  --primaryButtonText: #fff;
+  --primaryBorderBg: #292929;
+  --activeSelectionBg: rgba(0, 0, 0, 0.18);
+  --primaryShadowBg: rgba(8, 8, 8, 0.7);
 }

@@ -182,7 +182,7 @@ export default class CurrencyOptions extends React.Component<Props, State> {
                         onChangeAmount={(event) => this.changeAmount(event)}
                         amount={fromAmount}
                     />
-                    <SyncIcon onClick={(event) => this.handleClick(event)} />
+                    <SyncIcon onClick={(event: { preventDefault: () => void }) => this.handleClick(event)} />
                     <CurrencyRow
                         name={'to'}
                         nameInput={'toInput'}
