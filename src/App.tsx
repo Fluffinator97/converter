@@ -1,12 +1,12 @@
 import React from 'react';
-import CurrencyOptions from './CurrencyOptions';
+import Base from './Base';
 
 
 
 function App() {
   return (
     <div className="App">
-      <CurrencyOptions/>
+      <Base/>
     </div>
   );
 }
