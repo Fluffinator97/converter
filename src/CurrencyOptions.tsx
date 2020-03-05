@@ -3,6 +3,7 @@ import CurrencyRow from './CurrencyRow'
 import Flag from './Flag'
 import SyncIcon from '@material-ui/icons/Sync'
 import EUR from './assets/EUR.svg'
+
 interface Props {
 }
 interface State {
@@ -16,6 +17,7 @@ interface State {
     exchangeRate: number
     fromFlag: string
     toFlag: string
+    isToggleOn: boolean
 }
 export default class CurrencyOptions extends React.Component<Props, State> {
 
@@ -31,7 +33,8 @@ export default class CurrencyOptions extends React.Component<Props, State> {
             amount: 1,
             exchangeRate: 1,
             fromFlag: '',
-            toFlag: ''
+            toFlag: '',
+            isToggleOn: true
         }
     }
 
@@ -49,11 +52,11 @@ export default class CurrencyOptions extends React.Component<Props, State> {
                 toCurrency: defaultCurrency,
                 options: [...Object.keys(dataArray[0].rates), dataArray[0].base],
                 exchangeRate: (dataArray[0].rates[defaultCurrency]),
-              
+
             })
 
             await this.setState({
-                
+
                 fromFlag: this.currency2flag(this.state.fromCurrency, dataArray[1]),
                 toFlag: this.currency2flag(this.state.toCurrency, dataArray[1])
 
@@ -90,6 +93,13 @@ export default class CurrencyOptions extends React.Component<Props, State> {
         return flag
     }
 
+    handleClick(event: { preventDefault: () => void }) {
+        event.preventDefault()
+        this.setState(state => ({
+            isToggleOn: !state.isToggleOn
+        }));
+        console.log(this.state.isToggleOn)
+    }
     async update(fromCurrency: string | null, toCurrency: string | null) {
         if (fromCurrency != null && toCurrency != null) {
             try {
@@ -156,7 +166,8 @@ export default class CurrencyOptions extends React.Component<Props, State> {
             }
 
             return (
-                <div style={container}>
+                // <div className={`${this.state.isToggleOn ? 'container' : 'invert'}`}>
+                <div style= {this.state.isToggleOn ? {...container}:{...inverted}}> 
                     <Flag
                         flagImage={this.state.fromFlag}
                     />
@@ -169,7 +180,7 @@ export default class CurrencyOptions extends React.Component<Props, State> {
                         onChangeAmount={(event) => this.changeAmount(event)}
                         amount={fromAmount}
                     />
-                    <SyncIcon />
+                    <SyncIcon onClick={(event) => this.handleClick(event)} />
                     <CurrencyRow
                         name={'to'}
                         nameInput={'toInput'}
@@ -193,5 +204,11 @@ const container: React.CSSProperties = {
     margin: '0.5em',
     justifyContent: 'center',
     alignItems: 'center',
-
+}
+const inverted: React.CSSProperties = {
+    display: 'flex',
+    flexDirection: 'row',
+    margin: '0.5em',
+    justifyContent: 'center',
+    alignItems: 'center',
 }
