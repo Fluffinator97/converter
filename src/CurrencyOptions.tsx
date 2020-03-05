@@ -3,14 +3,14 @@ import CurrencyRow from './CurrencyRow'
 import Flag from './Flag'
 import SyncIcon from '@material-ui/icons/Sync'
 import EUR from './assets/EUR.svg'
-
 interface Props {
 }
 interface State {
     error: null
     isLoaded: boolean
     amountInFromCurrency: boolean
-    options: string[]
+    toOptions: string[]
+    fromOptions: string[]
     fromCurrency: string
     toCurrency: string
     amount: number
@@ -20,14 +20,14 @@ interface State {
     isToggleOn: boolean
 }
 export default class CurrencyOptions extends React.Component<Props, State> {
-
     constructor(props: Props) {
         super(props)
         this.state = {
             error: null,
             isLoaded: false,
             amountInFromCurrency: true,
-            options: [],
+            toOptions: [],
+            fromOptions: [],
             fromCurrency: '',
             toCurrency: '',
             amount: 1,
@@ -50,16 +50,15 @@ export default class CurrencyOptions extends React.Component<Props, State> {
                 isLoaded: true,
                 fromCurrency: dataArray[0].base,
                 toCurrency: defaultCurrency,
-                options: [...Object.keys(dataArray[0].rates), dataArray[0].base],
+                fromOptions: [...Object.keys(dataArray[0].rates), dataArray[0].base],
+                toOptions: [...Object.keys(dataArray[0].rates)],
                 exchangeRate: (dataArray[0].rates[defaultCurrency]),
 
             })
 
             await this.setState({
-
                 fromFlag: this.currency2flag(this.state.fromCurrency, dataArray[1]),
                 toFlag: this.currency2flag(this.state.toCurrency, dataArray[1])
-
             })
 
         }
@@ -100,6 +99,7 @@ export default class CurrencyOptions extends React.Component<Props, State> {
         }));
         console.log(this.state.isToggleOn)
     }
+
     async update(fromCurrency: string | null, toCurrency: string | null) {
         if (fromCurrency != null && toCurrency != null) {
             try {
@@ -115,6 +115,10 @@ export default class CurrencyOptions extends React.Component<Props, State> {
                 })
 
             } catch (error) {
+                this.setState({
+                    isLoaded: true,
+                    error
+                })
                 console.log(error)
             }
         }
@@ -160,21 +164,19 @@ export default class CurrencyOptions extends React.Component<Props, State> {
                 fromAmount = this.state.amount
                 toAmount = this.state.amount * this.state.exchangeRate
             }
+
             else {
                 toAmount = this.state.amount
                 fromAmount = this.state.amount / this.state.exchangeRate
             }
 
             return (
-                // <div className={`${this.state.isToggleOn ? 'container' : 'invert'}`}>
                 <div style= {this.state.isToggleOn ? {...container}:{...inverted}}> 
-                    <Flag
-                        flagImage={this.state.fromFlag}
-                    />
+                    <Flag flagImage={this.state.fromFlag}/>
                     <CurrencyRow
                         name={'from'}
                         nameInput={'fromInput'}
-                        currencyOptions={(this.state.options)}
+                        currencyOptions={(this.state.fromOptions)}
                         selectedCurrency={this.state.fromCurrency}
                         onChangeCurrency={(event) => this.changeCurrency(event)}
                         onChangeAmount={(event) => this.changeAmount(event)}
@@ -184,15 +186,13 @@ export default class CurrencyOptions extends React.Component<Props, State> {
                     <CurrencyRow
                         name={'to'}
                         nameInput={'toInput'}
-                        currencyOptions={(this.state.options)}
+                        currencyOptions={(this.state.toOptions)}
                         selectedCurrency={this.state.toCurrency}
                         onChangeCurrency={(event) => this.changeCurrency(event)}
                         onChangeAmount={(event) => this.changeAmount(event)}
                         amount={toAmount}
                     />
-                    <Flag
-                        flagImage={this.state.toFlag}
-                    />
+                    <Flag flagImage={this.state.toFlag} />
                 </div >)
         }
     }
