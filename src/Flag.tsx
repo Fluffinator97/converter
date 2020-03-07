@@ -2,8 +2,6 @@ import React from 'react'
 
 interface Props {
     flagImage: string
-
-
 }
 
 export default function Flag(props: Props) {
@@ -15,12 +13,11 @@ export default function Flag(props: Props) {
 }
 
 const container: React.CSSProperties = {
-    width: '3rem',
-    height: '2rem',
+    width: '5rem',
+    height: '4rem',
+    paddingTop:'1rem'
 }
 const flagStyle: React.CSSProperties = {
     width: '100%',
     height: '100%',
-    //border: '1px solid #021a40'
-
 }

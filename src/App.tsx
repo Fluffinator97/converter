@@ -1,9 +1,7 @@
 import React from 'react';
 import Layout from './Layout';
 
-
 interface Props {
-
 }
 interface State {
   theme: string
@@ -30,10 +28,7 @@ export default class App extends React.Component<Props, State>{
   render() {
     return (
       <div className="App">
-        <Layout />
-        <button onClick={e => this.toggleTheme()}>
-      Toggle theme
-    </button>
+        <Layout toggleTheme={e => this.toggleTheme()}/>
       </div>
     )
   }

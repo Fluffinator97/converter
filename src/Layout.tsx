@@ -1,57 +1,53 @@
 import React from 'react'
 import CurrencyOptions from './CurrencyOptions'
 import Image from './Image'
+interface Props {
+    toggleTheme: ((event: React.MouseEvent<HTMLButtonElement, MouseEvent>) => void)
+}
 
-export default function Layout() {
+export default function Layout(props: Props) {
     return (
-        <div>
-            <div style={wrapper}>
-                <div style={container}>
-                    <h1>Currency Convertor</h1>
-                    <p></p>
-                    <CurrencyOptions />
-                    <nav>
-                        <li>Home</li>
-                        <li>Graph</li>
-                        <li>Get Our App</li>
-                    </nav>
-                </div>
-                <div style={self} >
-                    <Image />
-                </div>
+        <div style={wrapper}>
+            <div>
+                <h1>Currency Convertor</h1>
+
+                <nav>
+                    <li>Home</li>
+                    <li>Graph</li>
+                    <li>Get Our App</li>
+                </nav>
+                <button onClick={props.toggleTheme}>
+                    Toggle theme </button>
             </div>
+            <div style={container}>
+                <div style={groupItem}><CurrencyOptions /></div>
+                <div style={groupItem}><Image /></div>
+            </div>
+
         </div>
     )
 }
 
-const title: React.CSSProperties = {
-    position: 'absolute',
-    left: '240px',
-    top: '236px',
-
-    fontFamily: 'Helvetica',
-    fontStyle: 'normal',
-    fontWeight: 'bold',
-    fontSize: '5em',
-    lineHeight: '110%',
-    display: 'flex',
-    alignItems: 'center',
-}
 const wrapper: React.CSSProperties = {
+    display: 'flex',
+    flexDirection: 'column',
+    alignContent: 'center',
+    justifyItems: 'space-between',
+    margin: '0',
+    padding:'2rem',
+    height: '100vh'
+    
+}
+
+const container: React.CSSProperties = {
     display: 'flex',
     flexDirection: 'row',
     flexWrap: 'wrap',
-    justifyContent: 'space-between',
+    justifyItems: 'space-between',
     alignItems: 'center',
-    margin:'5rem 2rem'
-
+    height: '100vh'
 }
-const container: React.CSSProperties = {
-    maxWidth: '50%'
 
-}
-const self: React.CSSProperties = {
-    maxWidth: '50%',
-    alignSelf:'flex-end'
-
+const groupItem: React.CSSProperties = {
+    flex: '1 50%',
 }

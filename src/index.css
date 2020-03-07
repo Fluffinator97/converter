@@ -17,15 +17,12 @@ html.color-theme-in-transition *:after {
 }
 
 html {
-  /* background: url(./assets/bck1.png) no-repeat center center fixed; */
-  /* background-size: cover; */
-  /* global colors */
-  --primaryTheme: #e52863;
+  --primaryTheme: #25be82;
 
-  --primaryBg: #fff ;
+  --primaryBg: #DBD5B5;
   --primaryBgSize: contain;
 
-  --primaryText: #212121;
+  --primaryText: #40798C;
   --secondaryText: #7b7b7b;
 
   --primaryButtonText: #fff;
@@ -41,13 +38,33 @@ html {
 
 html[data-theme="dark"] {
   /* global colors */
-  --primaryTheme: #e52863;
+  --primaryTheme: #25be82;
   --primaryBg: #1a1a1d;
   --primaryBgSize: contain;
-  --primaryText: rgba(255, 255, 255, 0.8);
+  --primaryText: #FCAB10;
   --secondaryText: rgba(255, 255, 255, 0.6);
   --primaryButtonText: #fff;
   --primaryBorderBg: #292929;
   --activeSelectionBg: rgba(0, 0, 0, 0.18);
   --primaryShadowBg: rgba(8, 8, 8, 0.7);
+}
+
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  font-family: "Roboto", sans-serif;
+}
+
+body {
+  background: url(./assets/blob4.png) no-repeat top right fixed, var(--primaryBg);
+  background-size: contain;
+  color: var(--primaryText);
+  height: 100%;
+  display: flex;
+}
+
+input::-webkit-outer-spin-button, input::-webkit-inner-spin-button {
+  -webkit-appearance: none;
+  margin: 0;
 }

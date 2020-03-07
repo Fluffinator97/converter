@@ -3,6 +3,7 @@ import CurrencyRow from './CurrencyRow'
 import Flag from './Flag'
 import SyncIcon from '@material-ui/icons/Sync'
 import EUR from './assets/EUR.svg'
+
 interface Props {
 }
 interface State {
@@ -171,45 +172,57 @@ export default class CurrencyOptions extends React.Component<Props, State> {
             }
 
             return (
-                <div style= {this.state.isToggleOn ? {...container}:{...inverted}}> 
-                    <Flag flagImage={this.state.fromFlag}/>
-                    <CurrencyRow
-                        name={'from'}
-                        nameInput={'fromInput'}
-                        currencyOptions={(this.state.fromOptions)}
-                        selectedCurrency={this.state.fromCurrency}
-                        onChangeCurrency={(event) => this.changeCurrency(event)}
-                        onChangeAmount={(event) => this.changeAmount(event)}
-                        amount={fromAmount}
-                    />
+                <div style={this.state.isToggleOn ? { ...defaultContainer, ...wrapper } : { ...invertedContainer, ...wrapper }}>
+                    <div style={groupItem}>
+                        <CurrencyRow
+                            name={'from'}
+                            nameInput={'fromInput'}
+                            currencyOptions={(this.state.fromOptions)}
+                            selectedCurrency={this.state.fromCurrency}
+                            onChangeCurrency={(event) => this.changeCurrency(event)}
+                            onChangeAmount={(event) => this.changeAmount(event)}
+                            amount={fromAmount}
+                        />
+                        <Flag flagImage={this.state.fromFlag} />
+                    </div>
                     <SyncIcon onClick={(event: { preventDefault: () => void }) => this.handleClick(event)} />
-                    <CurrencyRow
-                        name={'to'}
-                        nameInput={'toInput'}
-                        currencyOptions={(this.state.toOptions)}
-                        selectedCurrency={this.state.toCurrency}
-                        onChangeCurrency={(event) => this.changeCurrency(event)}
-                        onChangeAmount={(event) => this.changeAmount(event)}
-                        amount={toAmount}
-                    />
-                    <Flag flagImage={this.state.toFlag} />
+                    <div style={this.state.isToggleOn ? { ...groupItem } : { ...invertedContainer, ...groupItem }}>
+                        <CurrencyRow
+                            name={'to'}
+                            nameInput={'toInput'}
+                            currencyOptions={(this.state.toOptions)}
+                            selectedCurrency={this.state.toCurrency}
+                            onChangeCurrency={(event) => this.changeCurrency(event)}
+                            onChangeAmount={(event) => this.changeAmount(event)}
+                            amount={toAmount}
+                        />
+                        <Flag flagImage={this.state.toFlag} />
+                    </div>
                 </div >)
         }
     }
 }
 
-const container: React.CSSProperties = {
+
+const wrapper: React.CSSProperties = {
     display: 'flex',
+    justifyContent: 'center',
+    alignItems: 'center',
+}
+const defaultContainer: React.CSSProperties = {
     flexDirection: 'row',
-    margin: '0.5em',
+}
+
+const invertedContainer: React.CSSProperties = {
+    flexDirection: 'row-reverse',
+}
+
+const groupItem: React.CSSProperties = {
+    display: 'flex',
+    flexDirection: 'column',
     justifyContent: 'center',
     alignItems: 'center',
 }
 
-const inverted: React.CSSProperties = {
-    display: 'flex',
-    flexDirection: 'row-reverse',
-    margin: '0.5em',
-    justifyContent: 'center',
-    alignItems: 'center',
-}
+
+

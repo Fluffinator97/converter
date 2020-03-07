@@ -26,52 +26,31 @@ export default function CurrencyRow(props: Props) {
 
 const container: React.CSSProperties = {
     display: 'flex',
-    alignItems:'center',
+    alignItems: 'center',
     flexDirection: 'column',
-    margin: '0.5em',
     justifyItems: 'center',
-    // maxWidth: '40vw',
-    minWidth: '5em',
+    textAlignLast: 'center',
 }
 
 const dropDown: React.CSSProperties = {
-    display: 'block',
-	fontFamily: 'Montserrat',
-    fontStyle: 'normal',
-    fontWeight: 'normal',
     fontSize: '1em',
     lineHeight: '1em',
-    textAlignLast: 'center',
     color: '#FFFFFF',
-	padding: '.5em',
-	width: '50%',
-	maxWidth: '50%',
-	boxSizing: 'border-box',
-    margin: '1em',
-	background: '#9C69E2',
-    borderRadius: '3em',
-
+    padding: '.5em',
+    width: '50%',
+    margin: '0.5em 0',
+    background: '#40798C',
+    borderRadius: '3rem',
 }
 
 const inputStyle: React.CSSProperties = {
-    display: 'block',
-	fontFamily: 'Montserrat',
-    fontStyle: 'normal',
-    fontWeight: 'normal',
-    fontSize: '1rem',
-    lineHeight: '1rem',
-    textAlign: 'center',
-    color: 'white',
-
-	padding: '.6em 1.4em .5em .8em',
-	width: '50%',
-	maxWidth: '50%',
-	boxSizing: 'border-box',
-    
-	background: 'black',
-	
+    fontSize: '1em',
+    lineHeight: '1em',
+    // color: 'white',
+    padding: '.6em 1.4em 0',
+    maxWidth: '50%',
+    boxSizing: 'border-box',
+    // background: 'black',
     borderRadius: '3rem',
-    
-	appearance: 'none',
-   
+ 
 }
