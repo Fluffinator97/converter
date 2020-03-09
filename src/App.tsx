@@ -1,15 +1,23 @@
 import React from 'react';
-import './App.css';
-import CurrencyOptions from './CurrencyOptions';
+import Layout from './Layout';
 
-
-
-function App() {
-  return (
-    <div className="App">
-      <CurrencyOptions/>
-    </div>
-  );
+interface Props {
 }
 
-export default App;
+export default class App extends React.Component<Props>{
+  constructor(props: Props) {
+    super(props);
+  
+  }
+
+  
+
+  render() {
+    return (
+      <div className="App">
+        <Layout />
+      </div>
+    )
+  }
+}
+
