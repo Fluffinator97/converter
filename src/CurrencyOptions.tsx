@@ -3,6 +3,7 @@ import CurrencyRow from './CurrencyRow'
 import Flag from './Flag'
 import SyncIcon from '@material-ui/icons/Sync'
 import EUR from './assets/EUR.svg'
+import Charrt from "./Charrt"
 interface Props {
 }
 interface State {
@@ -55,6 +56,7 @@ export default class CurrencyOptions extends React.Component<Props, State> {
                         toCurrency: defaultCurrency,
                         options: [...Object.keys(dataSet1.rates), dataSet1.base],
                         exchangeRate: (dataSet1.rates[defaultCurrency])
+                        
                     })
                 })
                 data[1].then(dataSet2 => {
@@ -62,6 +64,7 @@ export default class CurrencyOptions extends React.Component<Props, State> {
                         fromFlag: this.currency2flag(this.state.fromCurrency, dataSet2),
                         toFlag: this.currency2flag(this.state.toCurrency, dataSet2)
                     })
+                    
                 })
             }).catch(error => {
                 this.setState({
@@ -165,6 +168,7 @@ export default class CurrencyOptions extends React.Component<Props, State> {
             }
 
             return (
+                <div> <Charrt toCurrency={this.state.toCurrency}/>
                 <div style={container}>
                     <Flag
                         flagImage={this.state.fromFlag}
@@ -191,7 +195,10 @@ export default class CurrencyOptions extends React.Component<Props, State> {
                     <Flag
                         flagImage={this.state.toFlag}
                     />
-                </div >)
+               
+
+                </div >
+                </div>)
         }
     }
 }
