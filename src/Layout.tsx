@@ -1,7 +1,7 @@
 import React, { useState } from 'react'
 import CurrencyOptions from './CurrencyOptions'
 import Image from './Image'
-import Switch from './Switch'
+import ThemeSlider from './ThemeSlider'
 interface Props {
    
 }
@@ -35,7 +35,7 @@ export default function Layout(props: Props) {
       
        </nav>
        <div >       
-     <Switch
+     <ThemeSlider
         isOn={value}
         onColor="#EF476F"
         handleToggle={() => {

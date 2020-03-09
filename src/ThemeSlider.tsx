@@ -1,5 +1,5 @@
 import React from 'react';
-import './Switch.css';
+import './ThemeSlider.css';
 
 interface Props{
 isOn:boolean,
@@ -8,9 +8,9 @@ onColor: string
 }
 
 
-export default function Switch (props: Props) {
+export default function ThemeSlider (props: Props) {
   return (
-    <div>
+    <div style={wrapper}>
       <input
         checked={props.isOn}
         onChange={props.handleToggle}
@@ -28,3 +28,9 @@ export default function Switch (props: Props) {
     </div>
   );
 };
+
+const wrapper: React.CSSProperties = {
+  position: 'absolute',
+  top: '5%',
+  right:'0'
+}
