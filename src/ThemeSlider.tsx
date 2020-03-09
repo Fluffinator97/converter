@@ -4,7 +4,6 @@ import './ThemeSlider.css';
 interface Props{
 isOn:boolean,
 handleToggle: ((event: React.ChangeEvent<HTMLInputElement>) => void),
-onColor: string
 }
 
 
@@ -14,23 +13,23 @@ export default function ThemeSlider (props: Props) {
       <input
         checked={props.isOn}
         onChange={props.handleToggle}
-        className="react-switch-checkbox"
-        id={`react-switch-new`}
+        className="themeSlider"
+        id={`themeSlider-new`}
         type="checkbox"
       />
       <label
-        style={{ background: 'isOn' && props.onColor }}
-        className="react-switch-label"
-        htmlFor={`react-switch-new`}
+        style={props.isOn ? {background: '#1a1a1d'} : {background: '#DBD5B5'}}
+        className="themeSlider-label"
+        htmlFor={`themeSlider-new`}
       >
-        <span className={`react-switch-button`} />
+        <span className={`themeSlider-button`} />
       </label>
     </div>
   );
 };
 
 const wrapper: React.CSSProperties = {
-  position: 'absolute',
-  top: '5%',
-  right:'0'
+  position: 'fixed',
+  top: '1rem',
+  right:'1rem'
 }

@@ -1,34 +1,34 @@
-.react-switch-label {
+.themeSlider {
+  visibility: hidden;
+}
+.themeSlider-label {
   display: flex;
   align-items: center;
   justify-content: space-between;
   cursor: pointer;
-  width: 100px;
-  height: 50px;
-  background: grey;
-  border-radius: 100px;
+  width: 4rem;
+  height: 1.3rem;
+  border-radius: 1rem;
   position: relative;
-  transition: background-color .2s;
 }
 
-.react-switch-label .react-switch-button {
+.themeSlider-label .themeSlider-button {
   content: '';
+  top: 0.5%;
+  left: 0.5%;
   position: absolute;
-  top: 2px;
-  left: 2px;
-  width: 45px;
-  height: 45px;
-  border-radius: 45px;
-  transition: 0.2s;
-  background: #fff;
-  box-shadow: 0 0 2px 0 rgba(10, 10, 10, 0.29);
+  width: 1.3rem;
+  height:  1.3rem;
+  border-radius:  50%;
+  transition: 0.5s;
+  background: #40798C;
 }
 
-.react-switch-checkbox:checked+.react-switch-label .react-switch-button {
-  left: calc(100% - 2px);
+.themeSlider:checked + .themeSlider-label .themeSlider-button {
+  left: calc(100% - 0.5%);
   transform: translateX(-100%);
 }
 
-.react-switch-label:active .react-switch-button {
-  width: 60px;
+.themeSlider-label:active .themeSlider-button {
+  width: 1rem;
 }

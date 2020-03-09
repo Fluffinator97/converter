@@ -1,4 +1,5 @@
 @import url('https://fonts.googleapis.com/css2?family=Raleway:wght@800&display=swap');
+
 html.color-theme-in-transition, html.color-theme-in-transition *, html.color-theme-in-transition *:before, html.color-theme-in-transition *:after {
   transition: all 750ms !important;
   transition-delay: 0 !important;
@@ -67,6 +68,10 @@ input {
   color: var(--secondaryText);
 }
 
+select{
+  background: var(--primaryText);
+  color: var(--secondaryText);
+}
 .text {
   margin: 0;
   line-height: 0.55;
@@ -91,7 +96,7 @@ span {
 
 .bouncing {
   animation: bounce 0.4s;
-  animation-iteration-count: 20;
+  animation-iteration-count: infinite;
   animation-direction: alternate;
   font-family: "Times New Roman", Times, serif;
   color: var(--primaryTheme)

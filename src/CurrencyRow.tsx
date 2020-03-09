@@ -35,11 +35,9 @@ const container: React.CSSProperties = {
 const dropDown: React.CSSProperties = {
     fontSize: '1em',
     lineHeight: '1em',
-    color: '#FFFFFF',
     padding: '.5em',
     width: '50%',
     margin: '0.5em 0',
-    background: '#40798C',
     borderRadius: '3rem',
 }
 

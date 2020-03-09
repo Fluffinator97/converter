@@ -210,8 +210,8 @@ const wrapper: React.CSSProperties = {
     alignItems: 'center',
     padding:'0',
     margin:'10rem 0',
- 
 }
+
 const defaultContainer: React.CSSProperties = {
     flexDirection: 'row',
 }
