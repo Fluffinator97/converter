@@ -8,6 +8,9 @@
   width: 100vw;
   
 } */
+
+@import url('https://fonts.googleapis.com/css2?family=Raleway:wght@800&display=swap');
+
 html.color-theme-in-transition,
 html.color-theme-in-transition *,
 html.color-theme-in-transition *:before,
@@ -18,53 +21,99 @@ html.color-theme-in-transition *:after {
 
 html {
   --primaryTheme: #25be82;
-
   --primaryBg: #DBD5B5;
   --primaryBgSize: contain;
-
   --primaryText: #40798C;
-  --secondaryText: #7b7b7b;
+  --secondaryText: #fff;
+  }
 
-  --primaryButtonText: #fff;
-
-  --primaryBorderBg: #efefef;
-
-  --activeSelectionBg: rgba(162, 162, 162, 0.1);
-
-  --primaryShadowBg: rgba(204, 204, 204, 0.7);
-  height: 100%;
-
-}
-
-html[data-theme="dark"] {
+html[data-theme="false"] {
   /* global colors */
   --primaryTheme: #25be82;
   --primaryBg: #1a1a1d;
   --primaryBgSize: contain;
-  --primaryText: #FCAB10;
-  --secondaryText: rgba(255, 255, 255, 0.6);
-  --primaryButtonText: #fff;
-  --primaryBorderBg: #292929;
-  --activeSelectionBg: rgba(0, 0, 0, 0.18);
-  --primaryShadowBg: rgba(8, 8, 8, 0.7);
+  --primaryText:  #ffc744 ;
+  --secondaryText: #1a1a1d;
 }
 
 * {
   margin: 0;
   padding: 0;
   box-sizing: border-box;
-  font-family: "Roboto", sans-serif;
+  font-family: 'Raleway', sans-serif;
 }
+
+html, body, body>div {
+  margin: 0;
+  height: 100%;
+  display: flex;
+
+  
+/* Font-Size: 55px; */
+/* Font-Family: 'Overpass', Sans-Serif;
+Font-Size: 17px; */
+}
+
+section{
+  position: absolute;
+  font-family: 'Raleway', sans-serif;
+  font-weight: bold;
+font-size: 4rem;
+line-height: 110%;
+width: max-content;
+top: 5%;
+left:7%;
+color:var(--primaryText);
+border-radius: 100% 86% 29% 50% / 100% 100% 49% 59%  ;
+border: 1rem solid var(--primaryBg);
+background-color:var(--primaryBg);
+padding: 0 1rem 0 0;
+margin: 0;}
 
 body {
   background: url(./assets/blob4.png) no-repeat top right fixed, var(--primaryBg);
   background-size: contain;
   color: var(--primaryText);
-  height: 100%;
-  display: flex;
 }
 
 input::-webkit-outer-spin-button, input::-webkit-inner-spin-button {
   -webkit-appearance: none;
-  margin: 0;
+ 
+ }
+
+ input {
+  border: 1px solid  var(--primaryText);
+  background: var(--primaryText);
+  color: var(--secondaryText);
+ }
+
+ .text {
+  margin     : 0;
+  line-height: 0.55;
+}
+
+span {
+  display: inline-block;
+}
+
+.stack {
+  display: block;
+}
+
+@keyframes bounce {
+  from {
+      transform: translate3d(0, 0, 0);
+  }
+
+  to {
+      transform: translate3d(0, -10px, 0);
+  }
+}
+
+.bouncing {
+  animation                : bounce 0.4s;
+  animation-iteration-count: 20;
+  animation-direction      : alternate;
+  font-family     : "Times New Roman", Times, serif;
+  color:var(--primaryTheme)
 }

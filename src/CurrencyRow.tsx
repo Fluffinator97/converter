@@ -46,11 +46,7 @@ const dropDown: React.CSSProperties = {
 const inputStyle: React.CSSProperties = {
     fontSize: '1em',
     lineHeight: '1em',
-    // color: 'white',
     padding: '.6em 1.4em 0',
     maxWidth: '50%',
-    boxSizing: 'border-box',
-    // background: 'black',
     borderRadius: '3rem',
- 
 }

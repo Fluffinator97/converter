@@ -185,7 +185,7 @@ export default class CurrencyOptions extends React.Component<Props, State> {
                         />
                         <Flag flagImage={this.state.fromFlag} />
                     </div>
-                    <SyncIcon onClick={(event: { preventDefault: () => void }) => this.handleClick(event)} />
+                    <SyncIcon style={{ fontSize: 50 }} onClick={(event: { preventDefault: () => void }) => this.handleClick(event)} />
                     <div style={this.state.isToggleOn ? { ...groupItem } : { ...invertedContainer, ...groupItem }}>
                         <CurrencyRow
                             name={'to'}
@@ -208,6 +208,9 @@ const wrapper: React.CSSProperties = {
     display: 'flex',
     justifyContent: 'center',
     alignItems: 'center',
+    padding:'0',
+    margin:'10rem 0',
+ 
 }
 const defaultContainer: React.CSSProperties = {
     flexDirection: 'row',
