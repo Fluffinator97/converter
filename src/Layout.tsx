@@ -1,12 +1,10 @@
 import React, { useState } from 'react'
 import CurrencyOptions from './CurrencyOptions'
-import Image from './Image'
 import ThemeSlider from './ThemeSlider'
+
 interface Props {
-
+displayImage: React.ReactNode
 }
-
-
 
 export default function Layout(props: Props) {
     const [value, setValue] = useState(false);
@@ -27,12 +25,6 @@ export default function Layout(props: Props) {
                     <span className="stack">ı</span></span>tch</p>
             </section>
 
-            <nav>
-                <li>Home</li>
-                <li>Graph</li>
-                <li>Get Our App</li>
-            </nav>
-
             <ThemeSlider
                 isOn={value}
                 handleToggle={() => {
@@ -45,7 +37,7 @@ export default function Layout(props: Props) {
 
             <div style={container}>
                 <div style={groupItem}><CurrencyOptions /></div>
-                <div style={groupItem}><Image /></div>
+                <div style={groupItem}>{props.displayImage}</div>
             </div>
 
         </div>
