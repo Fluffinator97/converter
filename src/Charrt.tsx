@@ -3,12 +3,18 @@ import Chart from "chart.js";
 import { thisExpression } from '@babel/types';
 
 interface Props {
-    toCurrency: string
+    toCurrency: string,
+
 }
 
 interface State {
-    today: any,
-    lastMonth: any,
+    today: string,
+    lastMonth: string, 
+    values: any,
+    tags: any
+
+    
+    
 
 
 }
@@ -21,19 +27,26 @@ export default class LineGraph extends React.Component<Props,State>{
         super(props)
          let today = new Date()
          
-
+        
         
         this.state = {
             today : today.getFullYear() + '-' + (today.getMonth() + 1) + '-' + today.getDate(),
             
             lastMonth: today.getFullYear() + '-' + (today.getMonth()) + '-' + today.getDate(),
+
+            values: [],
+            tags:[]
+     
+            
         }
     }
     
     chartRef = React.createRef() as any;
     
-
     
+
+
+
 
 
     componentDidMount() {
@@ -52,27 +65,32 @@ export default class LineGraph extends React.Component<Props,State>{
             for (const rate of rates) {  
                 values.push(rate[this.props.toCurrency])
             }
-            
+            this.setState({values: values})
             console.log(values)
-           
+            this.setState({tags: this.getLabel()})
+           console.log(this.state.tags)
             
         }).catch(error => {
             console.log(error);
     
         });
         
+      
         
-        const myChartRef = this.chartRef.current.getContext("2d");
+         const myChartRef = this.chartRef.current.getContext("2d");
         
-        new Chart(myChartRef, {
-            type: "line",
+         new Chart(myChartRef, {
+             type: "line",
+            
             data: {
                 //Bring in data
-                labels: [`${this.state.lastMonth}`, `${this.state.today}`],
+                // labels: ['test','test','.','.','.','end'],
+                labels: [this.state.lastMonth, this.state.today],
                 datasets: [
                     {
-                        label: "Sales",
-                        data: [67, 91],
+                        label: "Exchange Rates",
+                        data: this.state.values,
+                        // data: [5,10,4,6,7,8],
                     }
                 ]
             },
@@ -81,6 +99,20 @@ export default class LineGraph extends React.Component<Props,State>{
             }
         });
     
+    }
+
+    getLabel(){
+        if(this.state.values)
+       { const test: any[] = []
+        for(const item of this.state.values){
+    test.push('.')
+        }
+        test.splice(0,2)
+       test.unshift(this.state.lastMonth)
+       test.push(this.state.today)
+       return test
+      }
+      
     }
 
     componentDidUpdate(prevProps: Props, prevState: State) {
