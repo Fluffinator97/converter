@@ -109,11 +109,11 @@ export default class CurrencyOptions extends React.Component<Props, State> {
                     fetch('https://restcountries.eu/rest/v2/all?fields=name;currencies;flag')])
                 const dataArray = await Promise.all(responses.map((res) => res.json()))
 
-                this.setState({
-                    exchangeRate: (dataArray[0].rates[toCurrency]),
-                    fromFlag: this.currency2flag(fromCurrency, dataArray[1]),
-                    toFlag: this.currency2flag(toCurrency, dataArray[1])
-                })
+                // this.setState({
+                //     exchangeRate: (dataArray[0].rates[toCurrency]),
+                //     fromFlag: this.currency2flag(fromCurrency, dataArray[1]),
+                //     toFlag: this.currency2flag(toCurrency, dataArray[1])
+                // })
 
             } catch (error) {
                 this.setState({
