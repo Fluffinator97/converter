@@ -3,76 +3,72 @@ import CurrencyRow from './CurrencyRow'
 import Flag from './Flag'
 import SyncIcon from '@material-ui/icons/Sync'
 import EUR from './assets/EUR.svg'
-import Charrt from "./Charrt"
 interface Props {
 }
 interface State {
     error: null
     isLoaded: boolean
     amountInFromCurrency: boolean
-    options: string[]
+    toOptions: string[]
+    fromOptions: string[]
     fromCurrency: string
     toCurrency: string
     amount: number
     exchangeRate: number
     fromFlag: string
     toFlag: string
+    isToggleOn: boolean
 }
 export default class CurrencyOptions extends React.Component<Props, State> {
-
     constructor(props: Props) {
         super(props)
         this.state = {
             error: null,
             isLoaded: false,
             amountInFromCurrency: true,
-            options: [],
+            toOptions: [],
+            fromOptions: [],
             fromCurrency: '',
             toCurrency: '',
             amount: 1,
             exchangeRate: 1,
             fromFlag: '',
-            toFlag: ''
+            toFlag: '',
+            isToggleOn: true
         }
     }
 
-    componentDidMount() {
+    async componentDidMount() {
+        try {
+            const responses = await Promise.all([
+                fetch(`https://api.exchangeratesapi.io/latest`),
+                fetch('https://restcountries.eu/rest/v2/all?fields=name;currencies;flag')])
+            const dataArray = await Promise.all(responses.map((res) => res.json()))
+            const defaultCurrency = await Object.keys(dataArray[0].rates)[0]
 
-        Promise.all([
-            fetch("https://api.exchangeratesapi.io/latest"),
-            fetch('https://restcountries.eu/rest/v2/all?fields=name;currencies;flag')
-        ])
-            .then((responses) => {
-                // Get a JSON object from each of the responses
-                return responses.map((res) => {
-                    return res.json()
-                })
-            }).then(data => {
-                data[0].then(dataSet1 => {
-                    const defaultCurrency = Object.keys(dataSet1.rates)[0]
-                    this.setState({
-                        isLoaded: true,
-                        fromCurrency: dataSet1.base,
-                        toCurrency: defaultCurrency,
-                        options: [...Object.keys(dataSet1.rates), dataSet1.base],
-                        exchangeRate: (dataSet1.rates[defaultCurrency])
-                        
-                    })
-                })
-                data[1].then(dataSet2 => {
-                    this.setState({
-                        fromFlag: this.currency2flag(this.state.fromCurrency, dataSet2),
-                        toFlag: this.currency2flag(this.state.toCurrency, dataSet2)
-                    })
-                    
-                })
-            }).catch(error => {
-                this.setState({
-                    isLoaded: true,
-                    error
-                })
-                console.log(error);
-            });
+            await this.setState({
+                isLoaded: true,
+                fromCurrency: dataArray[0].base,
+                toCurrency: defaultCurrency,
+                fromOptions: [...Object.keys(dataArray[0].rates), dataArray[0].base],
+                toOptions: [...Object.keys(dataArray[0].rates)],
+                exchangeRate: (dataArray[0].rates[defaultCurrency]),
+
+            })
+
+            await this.setState({
+                fromFlag: this.currency2flag(this.state.fromCurrency, dataArray[1]),
+                toFlag: this.currency2flag(this.state.toCurrency, dataArray[1])
+            })
+
+        }
+        catch (error) {
+            this.setState({
+                isLoaded: true,
+                error
+            })
+            console.log(error);
+        }
     }
 
     currency2flag(currency: string, dataSet: any[]) {
@@ -96,29 +92,35 @@ export default class CurrencyOptions extends React.Component<Props, State> {
         return flag
     }
 
-    update(fromCurrency: string | null, toCurrency: string | null) {
+    handleClick(event: { preventDefault: () => void }) {
+        event.preventDefault()
+        this.setState(state => ({
+            isToggleOn: !state.isToggleOn
+        }));
+        console.log(this.state.isToggleOn)
+    }
+
+    async update(fromCurrency: string | null, toCurrency: string | null) {
         if (fromCurrency != null && toCurrency != null) {
-            Promise.all([
-                fetch(`https://api.exchangeratesapi.io/latest?base=${fromCurrency}&symbols=${toCurrency}`),
-                fetch('https://restcountries.eu/rest/v2/all?fields=name;currencies;flag')])
-                .then((responses) => {
-                    // Get a JSON object from each of the responses
-                    return responses.map((res) => {
-                        return res.json()
-                    })
+            try {
+                const responses = await Promise.all([
+                    fetch(`https://api.exchangeratesapi.io/latest?base=${fromCurrency}&symbols=${toCurrency}`),
+                    fetch('https://restcountries.eu/rest/v2/all?fields=name;currencies;flag')])
+                const dataArray = await Promise.all(responses.map((res) => res.json()))
+
+                this.setState({
+                    exchangeRate: (dataArray[0].rates[toCurrency]),
+                    fromFlag: this.currency2flag(fromCurrency, dataArray[1]),
+                    toFlag: this.currency2flag(toCurrency, dataArray[1])
                 })
-                .then(data => {
-                    data[0].then((dataSet1) => {
-                        console.log(dataSet1)
-                        this.setState({ exchangeRate: (dataSet1.rates[toCurrency]) })
-                    })
-                    data[1].then(dataSet2 => {
-                        this.setState({
-                            fromFlag: this.currency2flag(fromCurrency, dataSet2),
-                            toFlag: this.currency2flag(toCurrency, dataSet2)
-                        })
-                    })
+
+            } catch (error) {
+                this.setState({
+                    isLoaded: true,
+                    error
                 })
+                console.log(error)
+            }
         }
     }
 
@@ -162,52 +164,67 @@ export default class CurrencyOptions extends React.Component<Props, State> {
                 fromAmount = this.state.amount
                 toAmount = this.state.amount * this.state.exchangeRate
             }
+
             else {
                 toAmount = this.state.amount
                 fromAmount = this.state.amount / this.state.exchangeRate
             }
 
             return (
-                <div> <Charrt toCurrency={this.state.toCurrency}/>
-                <div style={container}>
-                    <Flag
-                        flagImage={this.state.fromFlag}
-                    />
-                    <CurrencyRow
-                        name={'from'}
-                        nameInput={'fromInput'}
-                        currencyOptions={(this.state.options)}
-                        selectedCurrency={this.state.fromCurrency}
-                        onChangeCurrency={(event) => this.changeCurrency(event)}
-                        onChangeAmount={(event) => this.changeAmount(event)}
-                        amount={fromAmount}
-                    />
-                    <SyncIcon />
-                    <CurrencyRow
-                        name={'to'}
-                        nameInput={'toInput'}
-                        currencyOptions={(this.state.options)}
-                        selectedCurrency={this.state.toCurrency}
-                        onChangeCurrency={(event) => this.changeCurrency(event)}
-                        onChangeAmount={(event) => this.changeAmount(event)}
-                        amount={toAmount}
-                    />
-                    <Flag
-                        flagImage={this.state.toFlag}
-                    />
-               
-
-                </div >
-                </div>)
+                <div style={this.state.isToggleOn ? { ...defaultContainer, ...wrapper } : { ...invertedContainer, ...wrapper }}>
+                    <div style={groupItem}>
+                        <CurrencyRow
+                            name={'from'}
+                            nameInput={'fromInput'}
+                            currencyOptions={(this.state.fromOptions)}
+                            selectedCurrency={this.state.fromCurrency}
+                            onChangeCurrency={(event) => this.changeCurrency(event)}
+                            onChangeAmount={(event) => this.changeAmount(event)}
+                            amount={fromAmount}
+                        />
+                        <Flag flagImage={this.state.fromFlag} />
+                    </div>
+                    <SyncIcon style={{ fontSize: 50 }} onClick={(event: { preventDefault: () => void }) => this.handleClick(event)} />
+                    <div style={this.state.isToggleOn ? { ...groupItem } : { ...invertedContainer, ...groupItem }}>
+                        <CurrencyRow
+                            name={'to'}
+                            nameInput={'toInput'}
+                            currencyOptions={(this.state.toOptions)}
+                            selectedCurrency={this.state.toCurrency}
+                            onChangeCurrency={(event) => this.changeCurrency(event)}
+                            onChangeAmount={(event) => this.changeAmount(event)}
+                            amount={toAmount}
+                        />
+                        <Flag flagImage={this.state.toFlag} />
+                    </div>
+                </div >)
         }
     }
 }
 
-const container: React.CSSProperties = {
+
+const wrapper: React.CSSProperties = {
     display: 'flex',
-    flexDirection: 'row',
-    margin: '0.5em',
     justifyContent: 'center',
     alignItems: 'center',
-
+    padding:'0',
+    margin:'10rem 0',
+ 
 }
+const defaultContainer: React.CSSProperties = {
+    flexDirection: 'row',
+}
+
+const invertedContainer: React.CSSProperties = {
+    flexDirection: 'row-reverse',
+}
+
+const groupItem: React.CSSProperties = {
+    display: 'flex',
+    flexDirection: 'column',
+    justifyContent: 'center',
+    alignItems: 'center',
+}
+
+
+
