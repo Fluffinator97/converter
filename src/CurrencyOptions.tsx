@@ -3,6 +3,7 @@ import CurrencyRow from './CurrencyRow'
 import Flag from './Flag'
 import SyncIcon from '@material-ui/icons/Sync'
 import EUR from './assets/EUR.svg'
+import LineGraph from './Charrt'
 interface Props {
 }
 interface State {
@@ -197,6 +198,7 @@ export default class CurrencyOptions extends React.Component<Props, State> {
                         />
                         <Flag flagImage={this.state.toFlag} />
                     </div>
+                    <LineGraph toCurrency={this.state.toCurrency}></LineGraph>
                 </div >)
         }
     }
@@ -207,8 +209,8 @@ const wrapper: React.CSSProperties = {
     display: 'flex',
     justifyContent: 'center',
     alignItems: 'center',
-    padding:'0',
-    margin:'10rem 0',
+    padding: '0',
+    margin: '10rem 0',
 }
 
 const defaultContainer: React.CSSProperties = {
