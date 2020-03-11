@@ -1,50 +1,48 @@
 import React, { useState } from 'react'
 import CurrencyOptions from './CurrencyOptions'
 import Image from './Image'
-import Switch from './Switch'
+import ThemeSlider from './ThemeSlider'
 interface Props {
-   
+
 }
 
 
-  
+
 export default function Layout(props: Props) {
     const [value, setValue] = useState(false);
-    
+
     function toggleTheme() {
         document.documentElement.classList.add("color-theme-in-transition");
         document.documentElement.setAttribute("data-theme", `${value}`);
         window.setTimeout(() => {
-          document.documentElement.classList.remove("color-theme-in-transition");
+            document.documentElement.classList.remove("color-theme-in-transition");
         }, 1000);
-      }
+    }
 
     return (
         <div style={wrapper}>
-            <div>
-                <section>
+
+            <section>
                 <p className="text">sw<span><span className="stack bouncing">.</span>
-                <span className="stack">ı</span></span>tch</p>
-                </section>
+                    <span className="stack">ı</span></span>tch</p>
+            </section>
+
+            <nav>
+                <li>Home</li>
+                <li>Graph</li>
+                <li>Get Our App</li>
+            </nav>
+
+            <ThemeSlider
+                isOn={value}
+                handleToggle={() => {
+                    setValue(!value)
+                    toggleTheme()
+                }}
+            />
 
 
-                <nav>
-                    <li>Home</li>
-                    <li>Graph</li>
-                    <li>Get Our App</li>
-      
-       </nav>
-       <div >       
-     <Switch
-        isOn={value}
-        onColor="#EF476F"
-        handleToggle={() => {
-            setValue(!value)
-            toggleTheme()}}
-      />
-</div> 
-                
-            </div>
+
             <div style={container}>
                 <div style={groupItem}><CurrencyOptions /></div>
                 <div style={groupItem}><Image /></div>
