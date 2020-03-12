@@ -1,18 +1,37 @@
 import React from 'react'
 
+
+fetch('https://api.exchangeratesapi.io/latest')
+
 export default function Favorit() {
     return (
-        <div style={boxStyling} className="favoritBox">
-            <div style={bindingBox}>
-                <header style={boxHeader}>Favorits</header>
-                <button style={buttonStyling} >Add Favorit</button>
+        <div>
+            <div style={currencyList}></div>
+            <div style={boxStyling} className="favoritBox">
+                <div style={bindingBox}>
+                    <header style={boxHeader}>Favorits</header>
+                    <button style={buttonStyling} itemID='openCurrencyList' >Add Favorit</button>
+                </div>
+                <ul id='favoritList'>
+                    <li>
+                    </li>
+                </ul>
             </div>
-            <ul id='favoritList'>
-                <li>
-                </li>
-            </ul>
         </div>
     )
+}
+
+
+const currencyList: React.CSSProperties = {
+
+    padding: 0,
+    margin: 0,
+    height: 300,
+    width: 500,
+    backgroundColor: 'white',
+    zIndex: 1,
+    position: 'absolute',
+    overflow: 'scroll',
 }
 
 const boxStyling: React.CSSProperties = {
