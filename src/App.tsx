@@ -42,5 +42,4 @@ const wrapper: React.CSSProperties = {
   position: 'fixed',
   top: '1rem',
   left:'1rem'
-
 }

@@ -2,16 +2,29 @@ import React from 'react'
 
 export default function Favorit() {
     return (
-        <div style={wrapper} className="favoritBox">
-    penisar
+        <div style={boxStyling} className="favoritBox">
+            <div>
+                <button style={boxHeader} >Add Favorit</button>
+            </div>
+            <ul id='favoritList'>
+                <li>
+                </li>
+            </ul>
         </div>
     )
 }
 
-const wrapper: React.CSSProperties = {
-    display: 'flex',
-    justifyContent: 'center',
-    alignItems: 'center',
-    padding:'0',
-    margin:'10rem 0',
-    backgroundColor:'#c1a8a8',}
+const boxStyling: React.CSSProperties = {
+    padding: 0,
+    margin: 0,
+    height: 200,
+    backgroundColor: 'black'
+}
+
+const boxHeader: React.CSSProperties = {
+    padding: 0,
+    margin: 0,
+    height: 40,
+    width: '100%',
+    backgroundColor: 'pink',
+}
