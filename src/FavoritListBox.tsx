@@ -1,12 +1,33 @@
 import React from 'react'
 
 
-fetch('https://api.exchangeratesapi.io/latest')
+class Country {
+    name: string;
+    id: number;
+    constructor(name: string, id: number) {
+      this.name = name;
+      this.id = id;
+    }
+}
+
+function formatCountry(country: any): Country {
+    return { name: country.name, id: country.id };
+  }
+  class MovieService {
+    getMovies(base: string): Promise<Country[]> {
+      return fetch(`https://api.exchangeratesapi.io/latest`)
+          .then(res => res.json())
+          .then(res => res.map((country: any) => formatCountry(country))
+    }
+  }
+  const apiClient = new MovieService();
+  apiClient.getMovies('sci-fi').then(countries => console.log(countries));
+
 
 export default function Favorit() {
     return (
         <div>
-            <div style={currencyList}></div>
+            <div style={countryList}></div>
             <div style={boxStyling} className="favoritBox">
                 <div style={bindingBox}>
                     <header style={boxHeader}>Favorits</header>
@@ -22,7 +43,7 @@ export default function Favorit() {
 }
 
 
-const currencyList: React.CSSProperties = {
+const countryList: React.CSSProperties = {
 
     padding: 0,
     margin: 0,
