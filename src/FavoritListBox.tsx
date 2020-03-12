@@ -18,6 +18,8 @@ const boxStyling: React.CSSProperties = {
     padding: 0,
     margin: 0,
     height: 200,
+    width: 500,
+    marginLeft:'75%',
     backgroundColor: 'black'
 }
 

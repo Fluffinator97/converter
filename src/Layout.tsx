@@ -58,10 +58,10 @@ const wrapper: React.CSSProperties = {
 const container: React.CSSProperties = {
     display: 'flex',
     flexDirection: 'row',
-    flexWrap: 'wrap',
     justifyItems: 'space-between',
     alignItems: 'center',
-    height: '100vh'
+    height: '100vh',
+    width: '100%'
 }
 
 const groupItem: React.CSSProperties = {
