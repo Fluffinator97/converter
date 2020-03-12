@@ -1,29 +1,5 @@
 import React from 'react'
 
-
-class Country {
-    name: string;
-    id: number;
-    constructor(name: string, id: number) {
-      this.name = name;
-      this.id = id;
-    }
-}
-
-function formatCountry(country: any): Country {
-    return { name: country.name, id: country.id };
-  }
-  class MovieService {
-    getMovies(base: string): Promise<Country[]> {
-      return fetch(`https://api.exchangeratesapi.io/latest`)
-          .then(res => res.json())
-          .then(res => res.map((country: any) => formatCountry(country))
-    }
-  }
-  const apiClient = new MovieService();
-  apiClient.getMovies('sci-fi').then(countries => console.log(countries));
-
-
 export default function Favorit() {
     return (
         <div>
