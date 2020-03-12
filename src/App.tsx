@@ -2,7 +2,7 @@ import React from 'react';
 import Layout from './Layout';
 import { Switch,Route,Link } from 'react-router-dom'
 import Graph from './Graph';
-import About from './About';
+import Favorit from './FavoritListBox';
 import Image from './Image'
 
 export default function App() {
@@ -17,7 +17,7 @@ export default function App() {
               <Link to="/graph">Graph</Link>
             </li>
             <li>
-              <Link to="/about">About</Link>
+              <Link to="/favorit">Favorit</Link>
             </li>
           </ul>
         </nav>
@@ -26,8 +26,8 @@ export default function App() {
           <Route path="/graph">
             <Layout displayImage={<Graph/>} />
           </Route>
-          <Route path="/about">
-          <Layout displayImage={<About/>} />
+          <Route path="/favorit">
+          <Layout displayImage={<Favorit/>} />
           </Route>
           <Route path="/">
             <Layout displayImage={<Image/>} />
