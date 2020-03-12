@@ -3,8 +3,9 @@ import React from 'react'
 export default function Favorit() {
     return (
         <div style={boxStyling} className="favoritBox">
-            <div>
-                <button style={boxHeader} >Add Favorit</button>
+            <div style={bindingBox}>
+                <header style={boxHeader}>Favorits</header>
+                <button style={buttonStyling} >Add Favorit</button>
             </div>
             <ul id='favoritList'>
                 <li>
@@ -17,16 +18,29 @@ export default function Favorit() {
 const boxStyling: React.CSSProperties = {
     padding: 0,
     margin: 0,
-    height: 200,
+    height: 300,
     width: 500,
     marginLeft:'75%',
-    backgroundColor: 'black'
+    backgroundColor: 'white'
 }
 
 const boxHeader: React.CSSProperties = {
-    padding: 0,
+    paddingTop: 10,
     margin: 0,
     height: 40,
-    width: '100%',
+    width: '80%',
     backgroundColor: 'pink',
+    textAlign: 'center',
+}
+
+const buttonStyling: React.CSSProperties = {
+    margin: 0,
+    height: 40,
+    width: '20%',
+    backgroundColor: 'pink',
+    textAlign: 'center',
+}
+
+const bindingBox: React.CSSProperties = {
+    display: 'flex'
 }
