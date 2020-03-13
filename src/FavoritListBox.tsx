@@ -2,18 +2,24 @@ import React from 'react'
 import CurrencyOptions from './CurrencyOptions'
 
 
+interface Props{
+    fromCurrency: 'string',
+    toCurrency:'string',
+    addItem: ((event: React.MouseEvent<HTMLButtonElement, MouseEvent>) => void)
+}
 
+export default function Favorit(props: Props) {
 
-export default function Favorit() {
     return (
         <div>
+            <button onClick={props.addItem}>Add</button>
             <div style={boxStyling} className="favoritBox">
                 <div style={bindingBox}>
                     <header style={boxHeader}>Favorits</header>
-                    {/* <button style={buttonStyling} itemID='openCurrencyList' >Add Favorit</button> */}
+                    {/*  <button style={buttonStyling} itemID='openCurrencyList' >Add Favorit</button> */}
                 </div>
                 <ul id='favoritList'>
-                    <li></li>
+    <li>{props.fromCurrency} vs {props.toCurrency}</li>
                 </ul>
             </div>
         </div>
