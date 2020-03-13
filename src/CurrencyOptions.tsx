@@ -3,6 +3,7 @@ import CurrencyRow from './CurrencyRow'
 import Flag from './Flag'
 import SyncIcon from '@material-ui/icons/Sync'
 import EUR from './assets/EUR.svg'
+import Favorite from './FavoritListBox'
 
 interface Props {
 }
@@ -170,19 +171,41 @@ export default class CurrencyOptions extends React.Component<Props, State> {
                 toAmount = this.state.amount
                 fromAmount = this.state.amount / this.state.exchangeRate
             }
-
-            return ( 
-        [   this.state.amountInFromCurrency,
-            this.state.toOptions,
-            this.state.fromOptions,
-            this.state.fromCurrency,
-            this.state.toCurrency,
-            this.state.amount,
-            this.state.exchangeRate,
-            this.state.fromFlag,
-            this.state.toFlag,
-            this.state.isToggleOn]
-              )
+            return (
+                <div style={this.state.isToggleOn ? { ...defaultContainer, ...wrapper } : { ...invertedContainer, ...wrapper }}>
+                    <div style={groupItem}>
+                        <CurrencyRow
+                            name={'from'}
+                            nameInput={'fromInput'}
+                            currencyOptions={(this.state.fromOptions)}
+                            selectedCurrency={this.state.fromCurrency}
+                            onChangeCurrency={(event) => this.changeCurrency(event)}
+                            onChangeAmount={(event) => this.changeAmount(event)}
+                            amount={fromAmount}
+                        />
+                        <Flag flagImage={this.state.fromFlag} />
+                    </div>
+                    <SyncIcon style={{ fontSize: 50 }} onClick={(event: { preventDefault: () => void }) => this.handleClick(event)} />
+                    <div style={this.state.isToggleOn ? { ...groupItem } : { ...invertedContainer, ...groupItem }}>
+                        <CurrencyRow
+                            name={'to'}
+                            nameInput={'toInput'}
+                            currencyOptions={(this.state.toOptions)}
+                            selectedCurrency={this.state.toCurrency}
+                            onChangeCurrency={(event) => this.changeCurrency(event)}
+                            onChangeAmount={(event) => this.changeAmount(event)}
+                            amount={toAmount}
+                        />
+                        <Flag flagImage={this.state.toFlag} />
+                    </div>
+                    <div>
+                        <Favorite
+                            toCurrency={this.state.toCurrency}
+                            fromCurrency={this.state.fromCurrency}
+                        />
+                    </div>
+                </div >
+            )
         }
     }
 }
@@ -192,8 +215,8 @@ const wrapper: React.CSSProperties = {
     display: 'flex',
     justifyContent: 'center',
     alignItems: 'center',
-    padding:'0',
-    margin:'10rem 0',
+    padding: '0',
+    margin: '10rem 0',
 }
 
 const defaultContainer: React.CSSProperties = {

@@ -1,23 +1,54 @@
 import React from 'react'
 import CurrencyOptions from './CurrencyOptions'
+import { listenerCount } from 'cluster';
+
+
+interface Props {
+    fromCurrency: string,
+    toCurrency: string,
+}
+
+interface State {
+    list: string[]
+}
+export default class Favorit extends React.Component<Props, State>{
+    constructor(props: Props) {
+        super(props)
+        this.state = {
+            list: []
+        }
+    }
+
+    addItem = (event: { preventDefault: () => void; }) => {
+        if (this.props.fromCurrency !== null && this.props.toCurrency !== null) {
+            event.preventDefault();
+            let favList = []
+            favList.push(this.props.fromCurrency, this.props.toCurrency)
+            this.setState({
+                list: favList
+            })
+        }
+    }
 
 
 
-
-export default function Favorit() {
-    return (
-        <div>
-            <div style={boxStyling} className="favoritBox">
-                <div style={bindingBox}>
-                    <header style={boxHeader}>Favorits</header>
-                    {/* <button style={buttonStyling} itemID='openCurrencyList' >Add Favorit</button> */}
+    render() {
+        console.log(this.state.list)
+        return (
+            <div>
+                <button onClick={this.addItem}>Add</button>
+                <div style={boxStyling} className="favoritBox">
+                    <div style={bindingBox}>
+                        <header style={boxHeader}>Favorits</header>
+                        {/*  <button style={buttonStyling} itemID='openCurrencyList' >Add Favorit</button> */}
+                    </div>
+                    <ul id='favoritList'>
+                        {this.state.list}
+                    </ul>
                 </div>
-                <ul id='favoritList'>
-                    <li></li>
-                </ul>
             </div>
-        </div>
-    )
+        )
+    }
 }
 
 
@@ -38,7 +69,7 @@ const boxStyling: React.CSSProperties = {
     margin: 0,
     height: 300,
     width: 500,
-    marginLeft:'75%',
+    marginLeft: '75%',
     backgroundColor: 'white'
 }
 

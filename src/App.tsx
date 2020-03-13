@@ -26,9 +26,9 @@ export default function App() {
           <Route path="/graph">
             <Layout displayImage={<Graph/>} />
           </Route>
-          <Route path="/favorit">
+          {/* <Route path="/favorit">
           <Layout displayImage={<Favorit/>} />
-          </Route>
+          </Route> */}
           <Route path="/">
             <Layout displayImage={<Image/>} />
           </Route>
