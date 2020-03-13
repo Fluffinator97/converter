@@ -4,6 +4,8 @@ import { Switch,Route,Link } from 'react-router-dom'
 import Graph from './Graph';
 import About from './About';
 import Image from './Image'
+import ErrorBoundary from './ErrorBoundary';
+
 
 export default function App() {
   return (
@@ -25,13 +27,19 @@ export default function App() {
         <Switch>
           
           <Route path="/about">
-          <Layout displayImage={<About/>} />
+            <ErrorBoundary>
+              <Layout displayImage={<About/>} />
+            </ErrorBoundary>
           </Route>
           <Route path="/">
-            <Layout displayImage={<Image/>} />
+            <ErrorBoundary>
+              <Layout displayImage={<Image/>} />
+            </ErrorBoundary>
           </Route>
           <Route path="/graph">
-            <Layout displayImage={<Graph/>} />
+            <ErrorBoundary>
+              <Layout displayImage={<Graph/>} />
+            </ErrorBoundary>
           </Route>
         </Switch>
       </div>

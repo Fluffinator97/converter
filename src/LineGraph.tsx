@@ -4,7 +4,7 @@ import Chart from "chart.js";
 
 interface Props {
     toCurrency: string,
-fromCurrency:string
+    fromCurrency:string
 }
 
 interface State {
