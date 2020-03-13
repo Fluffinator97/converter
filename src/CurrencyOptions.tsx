@@ -171,34 +171,18 @@ export default class CurrencyOptions extends React.Component<Props, State> {
                 fromAmount = this.state.amount / this.state.exchangeRate
             }
 
-            return (
-                <div style={this.state.isToggleOn ? { ...defaultContainer, ...wrapper } : { ...invertedContainer, ...wrapper }}>
-                    <div style={groupItem}>
-                        <CurrencyRow
-                            name={'from'}
-                            nameInput={'fromInput'}
-                            currencyOptions={(this.state.fromOptions)}
-                            selectedCurrency={this.state.fromCurrency}
-                            onChangeCurrency={(event) => this.changeCurrency(event)}
-                            onChangeAmount={(event) => this.changeAmount(event)}
-                            amount={fromAmount}
-                        />
-                        <Flag flagImage={this.state.fromFlag} />
-                    </div>
-                    <SyncIcon style={{ fontSize: 50 }} onClick={(event: { preventDefault: () => void }) => this.handleClick(event)} />
-                    <div style={this.state.isToggleOn ? { ...groupItem } : { ...invertedContainer, ...groupItem }}>
-                        <CurrencyRow
-                            name={'to'}
-                            nameInput={'toInput'}
-                            currencyOptions={(this.state.toOptions)}
-                            selectedCurrency={this.state.toCurrency}
-                            onChangeCurrency={(event) => this.changeCurrency(event)}
-                            onChangeAmount={(event) => this.changeAmount(event)}
-                            amount={toAmount}
-                        />
-                        <Flag flagImage={this.state.toFlag} />
-                    </div>
-                </div >)
+            return ( 
+        [   this.state.amountInFromCurrency,
+            this.state.toOptions,
+            this.state.fromOptions,
+            this.state.fromCurrency,
+            this.state.toCurrency,
+            this.state.amount,
+            this.state.exchangeRate,
+            this.state.fromFlag,
+            this.state.toFlag,
+            this.state.isToggleOn]
+              )
         }
     }
 }

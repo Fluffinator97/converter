@@ -1,17 +1,19 @@
 import React from 'react'
+import CurrencyOptions from './CurrencyOptions'
+
+
+
 
 export default function Favorit() {
     return (
         <div>
-            <div style={countryList}></div>
             <div style={boxStyling} className="favoritBox">
                 <div style={bindingBox}>
                     <header style={boxHeader}>Favorits</header>
-                    <button style={buttonStyling} itemID='openCurrencyList' >Add Favorit</button>
+                    {/* <button style={buttonStyling} itemID='openCurrencyList' >Add Favorit</button> */}
                 </div>
                 <ul id='favoritList'>
-                    <li>
-                    </li>
+                    <li></li>
                 </ul>
             </div>
         </div>
@@ -44,15 +46,7 @@ const boxHeader: React.CSSProperties = {
     paddingTop: 10,
     margin: 0,
     height: 40,
-    width: '80%',
-    backgroundColor: 'pink',
-    textAlign: 'center',
-}
-
-const buttonStyling: React.CSSProperties = {
-    margin: 0,
-    height: 40,
-    width: '20%',
+    width: '100%',
     backgroundColor: 'pink',
     textAlign: 'center',
 }
