@@ -1,10 +1,10 @@
 import React, { Component } from 'react'
 import Chart from "chart.js";
-import { thisExpression } from '@babel/types';
+
 
 interface Props {
     toCurrency: string,
-
+fromCurrency:string
 }
 
 interface State {
@@ -12,23 +12,14 @@ interface State {
     lastMonth: string, 
     values: number[],
     tags: string[]
-
-    
-    
-
-
 }
 
 export default class LineGraph extends React.Component<Props,State>{
-    
-    EndDate: any;
     constructor(props: Props){
-        
+       
         super(props)
          let today = new Date()
          
-        
-        
         this.state = {
             today : today.getFullYear() + '-' + (today.getMonth() + 1) + '-' + today.getDate(),
             
@@ -43,20 +34,13 @@ export default class LineGraph extends React.Component<Props,State>{
     
     chartRef = React.createRef() as any;
     
-    
-
-
-
-
-
     componentDidMount() {
         console.log('MOUNT')
         this.fetchData()
     }
 
     fetchData() {
-        fetch(`https://api.exchangeratesapi.io/history?start_at=${this.state.lastMonth}&end_at=${this.state.today}`)
-        
+        fetch(`https://api.exchangeratesapi.io/history?start_at=${this.state.lastMonth}&end_at=${this.state.today}&base=${this.props.fromCurrency}`)
         .then(res => 
         
                 res.json()
@@ -90,7 +74,7 @@ export default class LineGraph extends React.Component<Props,State>{
 
     componentDidUpdate(prevProps: Props, prevState: State) {
         console.log('UPDATE')
-        if (this.props.toCurrency !== prevProps.toCurrency) {
+        if (this.props.toCurrency !== prevProps.toCurrency || this.props.fromCurrency !== prevProps.fromCurrency) {
             this.fetchData()
         }
         if (JSON.stringify(this.state.values) !== JSON.stringify(prevState.values)) {
@@ -99,19 +83,16 @@ export default class LineGraph extends React.Component<Props,State>{
                 type: "line",
                 
                 data: {
-                    //Bring in data
-                    // labels: ['test','test','.','.','.','end'],
                     labels: this.state.tags,
                     datasets: [
                         {
                             label: "Exchange Rates",
                             data: this.state.values,
-                            // data: [5,10,4,6,7,8],
                         }
                     ]
                 },
                 options: {
-                    //Customize chart options
+                    events:['null']
                 }
             });
         }

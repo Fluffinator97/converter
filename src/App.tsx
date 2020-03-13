@@ -23,14 +23,15 @@ export default function App() {
         </nav>
 
         <Switch>
-          <Route path="/graph">
-            <Layout displayImage={<Graph/>} />
-          </Route>
+          
           <Route path="/about">
           <Layout displayImage={<About/>} />
           </Route>
           <Route path="/">
             <Layout displayImage={<Image/>} />
+          </Route>
+          <Route path="/graph">
+            <Layout displayImage={<Graph/>} />
           </Route>
         </Switch>
       </div>
