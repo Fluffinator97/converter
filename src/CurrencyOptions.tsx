@@ -3,7 +3,7 @@ import CurrencyRow from './CurrencyRow'
 import Flag from './Flag'
 import SyncIcon from '@material-ui/icons/Sync'
 import EUR from './assets/EUR.svg'
-
+import LineGraph from './LineGraph'
 interface Props {
 }
 interface State {
@@ -54,7 +54,6 @@ export default class CurrencyOptions extends React.Component<Props, State> {
                 fromOptions: [...Object.keys(dataArray[0].rates), dataArray[0].base],
                 toOptions: [...Object.keys(dataArray[0].rates)],
                 exchangeRate: (dataArray[0].rates[defaultCurrency]),
-
             })
 
             await this.setState({
@@ -84,6 +83,9 @@ export default class CurrencyOptions extends React.Component<Props, State> {
             case 'CHF':
                 flag = dataSet.find((element: { name: string }) => element.name === 'Switzerland').flag
                 break;
+            case 'SGD':
+                flag = dataSet.find((element: { name: string }) => element.name === 'Singapore').flag
+                break;
             case 'EUR':
                 flag = EUR
                 break;
@@ -101,20 +103,17 @@ export default class CurrencyOptions extends React.Component<Props, State> {
         console.log(this.state.isToggleOn)
     }
 
-    async update(fromCurrency: string | null, toCurrency: string | null) {
-        if (fromCurrency != null && toCurrency != null) {
+    async update(fromCurrency: string, toCurrency: string) {
             try {
                 const responses = await Promise.all([
                     fetch(`https://api.exchangeratesapi.io/latest?base=${fromCurrency}&symbols=${toCurrency}`),
                     fetch('https://restcountries.eu/rest/v2/all?fields=name;currencies;flag')])
                 const dataArray = await Promise.all(responses.map((res) => res.json()))
-
                 this.setState({
                     exchangeRate: (dataArray[0].rates[toCurrency]),
                     fromFlag: this.currency2flag(fromCurrency, dataArray[1]),
                     toFlag: this.currency2flag(toCurrency, dataArray[1])
                 })
-
             } catch (error) {
                 this.setState({
                     isLoaded: true,
@@ -122,17 +121,21 @@ export default class CurrencyOptions extends React.Component<Props, State> {
                 })
                 console.log(error)
             }
+    }
+
+    componentDidUpdate(prevProps: Props, prevState: State) {
+        console.log('UPDATE')
+        if (this.state.toCurrency !== prevState.toCurrency || this.state.fromCurrency !== prevState.fromCurrency) {
+            this.update(this.state.fromCurrency,this.state.toCurrency)
         }
     }
 
     changeCurrency = (event: { target: { name: string; value: string } }) => {
         if (event.target.name === "from") {
             this.setState({ fromCurrency: event.target.value })
-            this.update(event.target.value, this.state.toCurrency)
         }
         if (event.target.name === "to") {
             this.setState({ toCurrency: event.target.value })
-            this.update(this.state.fromCurrency, event.target.value)
         }
     }
 
@@ -149,7 +152,6 @@ export default class CurrencyOptions extends React.Component<Props, State> {
                 amountInFromCurrency: false
             })
         }
-
     }
 
     render() {
@@ -198,18 +200,21 @@ export default class CurrencyOptions extends React.Component<Props, State> {
                         />
                         <Flag flagImage={this.state.toFlag} />
                     </div>
+                    <LineGraph 
+                    toCurrency={this.state.toCurrency}
+                    fromCurrency={this.state.fromCurrency}
+                    />
                 </div >)
         }
     }
 }
 
-
 const wrapper: React.CSSProperties = {
     display: 'flex',
     justifyContent: 'center',
     alignItems: 'center',
-    padding:'0',
-    margin:'10rem 0',
+    padding: '0',
+    margin: '10rem 0',
 }
 
 const defaultContainer: React.CSSProperties = {
