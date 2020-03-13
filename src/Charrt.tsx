@@ -106,6 +106,7 @@ export default class LineGraph extends React.Component<Props,State>{
                         {
                             label: "Exchange Rates",
                             data: this.state.values,
+                            pointRadius: 0,
                             // data: [5,10,4,6,7,8],
                         }
                     ]
