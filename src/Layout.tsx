@@ -3,7 +3,7 @@ import CurrencyOptions from './CurrencyOptions'
 import ThemeSlider from './ThemeSlider'
 
 interface Props {
-displayImage: React.ReactNode
+    displayImage: React.ReactNode
 }
 
 export default function Layout(props: Props) {
@@ -19,7 +19,6 @@ export default function Layout(props: Props) {
 
     return (
         <div style={wrapper}>
-
             <section>
                 <p className="text">sw<span><span className="stack bouncing">.</span>
                     <span className="stack">ı</span></span>tch</p>
@@ -32,11 +31,8 @@ export default function Layout(props: Props) {
                     toggleTheme()
                 }}
             />
-
-
-
             <div style={container}>
-                <div style={groupItem}><CurrencyOptions /></div>
+                <div style={groupItem}><CurrencyOptions/></div>
                 <div style={groupItem}>{props.displayImage}</div>
             </div>
 
