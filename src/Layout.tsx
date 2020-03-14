@@ -15,6 +15,7 @@ export default function Layout(props: Props) {
         window.setTimeout(() => {
             document.documentElement.classList.remove("color-theme-in-transition");
         }, 1000);
+
     }
 
     return (

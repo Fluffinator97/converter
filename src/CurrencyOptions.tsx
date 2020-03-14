@@ -200,10 +200,10 @@ export default class CurrencyOptions extends React.Component<Props, State> {
                         />
                         <Flag flagImage={this.state.toFlag} />
                     </div>
-                    <LineGraph 
+                    {/* <LineGraph 
                     toCurrency={this.state.toCurrency}
                     fromCurrency={this.state.fromCurrency}
-                    />
+                    /> */}
                 </div >)
         }
     }

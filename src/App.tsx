@@ -3,7 +3,8 @@ import Layout from './Layout';
 import { Switch,Route,Link } from 'react-router-dom'
 import Graph from './Graph';
 import About from './About';
-import Image from './Image'
+import Image from './Image';
+import artWork from "./assets/18920.png"
 
 export default function App() {
   return (
@@ -28,7 +29,7 @@ export default function App() {
           <Layout displayImage={<About/>} />
           </Route>
           <Route path="/">
-            <Layout displayImage={<Image/>} />
+            <Layout displayImage={<Image imageSrc={artWork} imageWidth={'100%'}/>} />
           </Route>
           <Route path="/graph">
             <Layout displayImage={<Graph/>} />

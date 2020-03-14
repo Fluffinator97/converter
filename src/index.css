@@ -1,5 +1,4 @@
 @import url('https://fonts.googleapis.com/css2?family=Raleway:wght@800&display=swap');
-
 html.color-theme-in-transition, html.color-theme-in-transition *, html.color-theme-in-transition *:before, html.color-theme-in-transition *:after {
   transition: all 750ms !important;
   transition-delay: 0 !important;
@@ -18,7 +17,7 @@ html[data-theme="false"] {
   --primaryTheme: #25be82;
   --primaryBg: #1a1a1d;
   --primaryBgSize: contain;
-  --primaryText: #ffc744;
+  --primaryText: #3dbbd2;
   --secondaryText: #1a1a1d;
 }
 
@@ -45,15 +44,10 @@ section {
   top: 5%;
   left: 7%;
   color: var(--primaryText);
-  /* border-radius: 100% 86% 29% 50% / 100% 100% 49% 59%; */
-  /* border: 1rem solid var(--primaryBg);
-  background-color: var(--primaryBg); */
-  padding: 0 1rem 0 0;
-  margin: 0;
 }
 
 body {
-  background: url(./assets/blob4.png) no-repeat top right fixed, var(--primaryBg);
+  background: url(./assets/blob5.png) no-repeat bottom right fixed, var(--primaryBg);
   background-size: contain;
   color: var(--primaryText);
 }
@@ -68,10 +62,11 @@ input {
   color: var(--secondaryText);
 }
 
-select{
+select {
   background: var(--primaryText);
   color: var(--secondaryText);
 }
+
 .text {
   margin: 0;
   line-height: 0.55;
@@ -79,6 +74,7 @@ select{
 
 span {
   display: inline-block;
+  width:20px;
 }
 
 .stack {
@@ -94,10 +90,9 @@ span {
   }
 }
 
-.bouncing {
+section img {
+  border:2px black;
   animation: bounce 0.4s;
   animation-iteration-count: infinite;
   animation-direction: alternate;
-  font-family: "Times New Roman", Times, serif;
-  color: var(--primaryTheme)
 }
