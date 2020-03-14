@@ -1,11 +1,10 @@
 import React, { useState } from 'react'
 import CurrencyOptions from './CurrencyOptions'
-import ThemeSlider from './ThemeSlider'
+import ThemeSlider from './Theme/ThemeSlider'
 
-interface Props {
-    displayImage: React.ReactNode
+interface Props{
+    displayPage: string
 }
-
 export default function Layout(props: Props) {
     const [value, setValue] = useState(false);
 
@@ -24,7 +23,8 @@ export default function Layout(props: Props) {
                 <p className="text">sw<span><span className="stack bouncing">.</span>
                     <span className="stack">ı</span></span>tch</p>
             </section>
-
+            <div style={{ display: 'flex', justifyContent: 'center' }} >
+            </div>
             <ThemeSlider
                 isOn={value}
                 handleToggle={() => {
@@ -32,11 +32,7 @@ export default function Layout(props: Props) {
                     toggleTheme()
                 }}
             />
-            <div style={container}>
-                <div style={groupItem}><CurrencyOptions/></div>
-                <div style={groupItem}>{props.displayImage}</div>
-            </div>
-
+            <CurrencyOptions displayPage={props.displayPage}/>
         </div>
     )
 }
@@ -49,18 +45,6 @@ const wrapper: React.CSSProperties = {
     margin: '0',
     padding: '2rem',
     height: '100%',
-
 }
 
-const container: React.CSSProperties = {
-    display: 'flex',
-    flexDirection: 'row',
-    flexWrap: 'wrap',
-    justifyItems: 'space-between',
-    alignItems: 'center',
-    height: '100vh'
-}
 
-const groupItem: React.CSSProperties = {
-    flex: '1 40%',
-}

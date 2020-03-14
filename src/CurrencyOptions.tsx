@@ -4,7 +4,11 @@ import Flag from './Flag'
 import SyncIcon from '@material-ui/icons/Sync'
 import EUR from './assets/EUR.svg'
 import LineGraph from './LineGraph'
+import Image from './Image'
+import About from './About'
+import artWork from "./assets/18920.png"
 interface Props {
+    displayPage: string
 }
 interface State {
     error: null
@@ -104,29 +108,29 @@ export default class CurrencyOptions extends React.Component<Props, State> {
     }
 
     async update(fromCurrency: string, toCurrency: string) {
-            try {
-                const responses = await Promise.all([
-                    fetch(`https://api.exchangeratesapi.io/latest?base=${fromCurrency}&symbols=${toCurrency}`),
-                    fetch('https://restcountries.eu/rest/v2/all?fields=name;currencies;flag')])
-                const dataArray = await Promise.all(responses.map((res) => res.json()))
-                this.setState({
-                    exchangeRate: (dataArray[0].rates[toCurrency]),
-                    fromFlag: this.currency2flag(fromCurrency, dataArray[1]),
-                    toFlag: this.currency2flag(toCurrency, dataArray[1])
-                })
-            } catch (error) {
-                this.setState({
-                    isLoaded: true,
-                    error
-                })
-                console.log(error)
-            }
+        try {
+            const responses = await Promise.all([
+                fetch(`https://api.exchangeratesapi.io/latest?base=${fromCurrency}&symbols=${toCurrency}`),
+                fetch('https://restcountries.eu/rest/v2/all?fields=name;currencies;flag')])
+            const dataArray = await Promise.all(responses.map((res) => res.json()))
+            this.setState({
+                exchangeRate: (dataArray[0].rates[toCurrency]),
+                fromFlag: this.currency2flag(fromCurrency, dataArray[1]),
+                toFlag: this.currency2flag(toCurrency, dataArray[1])
+            })
+        } catch (error) {
+            this.setState({
+                isLoaded: true,
+                error
+            })
+            console.log(error)
+        }
     }
 
     componentDidUpdate(prevProps: Props, prevState: State) {
         console.log('UPDATE')
         if (this.state.toCurrency !== prevState.toCurrency || this.state.fromCurrency !== prevState.fromCurrency) {
-            this.update(this.state.fromCurrency,this.state.toCurrency)
+            this.update(this.state.fromCurrency, this.state.toCurrency)
         }
     }
 
@@ -154,6 +158,20 @@ export default class CurrencyOptions extends React.Component<Props, State> {
         }
     }
 
+    changeDisplayPage = (value: string) => {
+        if (value === 'about') {
+            console.log('test1233')
+            return <About/>
+        }
+        else if (value === 'graph') {
+            console.log('test')
+            return <LineGraph toCurrency={this.state.toCurrency} fromCurrency={this.state.fromCurrency}/>
+        }
+        else {
+            return <Image imageSrc={artWork} imageWidth={'100%'} />
+        }
+    }
+
     render() {
         if (this.state.error) {
             return <div>Error</div>
@@ -174,40 +192,52 @@ export default class CurrencyOptions extends React.Component<Props, State> {
             }
 
             return (
-                <div style={this.state.isToggleOn ? { ...defaultContainer, ...wrapper } : { ...invertedContainer, ...wrapper }}>
-                    <div style={groupItem}>
-                        <CurrencyRow
-                            name={'from'}
-                            nameInput={'fromInput'}
-                            currencyOptions={(this.state.fromOptions)}
-                            selectedCurrency={this.state.fromCurrency}
-                            onChangeCurrency={(event) => this.changeCurrency(event)}
-                            onChangeAmount={(event) => this.changeAmount(event)}
-                            amount={fromAmount}
-                        />
-                        <Flag flagImage={this.state.fromFlag} />
+                <div style={mainWrapper}>
+                    <div style={this.state.isToggleOn ? { ...defaultContainer, ...wrapper, ...mainGroupItem } : { ...invertedContainer, ...wrapper, ...mainGroupItem }}>
+                        <div style={groupItem}>
+                            <CurrencyRow
+                                name={'from'}
+                                nameInput={'fromInput'}
+                                currencyOptions={(this.state.fromOptions)}
+                                selectedCurrency={this.state.fromCurrency}
+                                onChangeCurrency={(event) => this.changeCurrency(event)}
+                                onChangeAmount={(event) => this.changeAmount(event)}
+                                amount={fromAmount}
+                            />
+                            <Flag flagImage={this.state.fromFlag} />
+                        </div>
+                        <SyncIcon style={{ fontSize: 50 }} onClick={(event: { preventDefault: () => void }) => this.handleClick(event)} />
+                        <div style={this.state.isToggleOn ? { ...groupItem } : { ...invertedContainer, ...groupItem }}>
+                            <CurrencyRow
+                                name={'to'}
+                                nameInput={'toInput'}
+                                currencyOptions={(this.state.toOptions)}
+                                selectedCurrency={this.state.toCurrency}
+                                onChangeCurrency={(event) => this.changeCurrency(event)}
+                                onChangeAmount={(event) => this.changeAmount(event)}
+                                amount={toAmount}
+                            />
+                            <Flag flagImage={this.state.toFlag} />
+                        </div>
+
                     </div>
-                    <SyncIcon style={{ fontSize: 50 }} onClick={(event: { preventDefault: () => void }) => this.handleClick(event)} />
-                    <div style={this.state.isToggleOn ? { ...groupItem } : { ...invertedContainer, ...groupItem }}>
-                        <CurrencyRow
-                            name={'to'}
-                            nameInput={'toInput'}
-                            currencyOptions={(this.state.toOptions)}
-                            selectedCurrency={this.state.toCurrency}
-                            onChangeCurrency={(event) => this.changeCurrency(event)}
-                            onChangeAmount={(event) => this.changeAmount(event)}
-                            amount={toAmount}
-                        />
-                        <Flag flagImage={this.state.toFlag} />
+                    <div style={mainGroupItem}>
+                        {this.changeDisplayPage(this.props.displayPage)}
                     </div>
-                    {/* <LineGraph 
-                    toCurrency={this.state.toCurrency}
-                    fromCurrency={this.state.fromCurrency}
-                    /> */}
-                </div >)
+                </div>)
         }
     }
 }
+
+const mainWrapper: React.CSSProperties = {
+    display: 'flex',
+    flexDirection: 'row',
+    flexWrap: 'wrap',
+    justifyItems: 'space-between',
+    alignItems: 'center',
+    height: '100vh'
+}
+
 
 const wrapper: React.CSSProperties = {
     display: 'flex',
@@ -232,5 +262,6 @@ const groupItem: React.CSSProperties = {
     alignItems: 'center',
 }
 
-
-
+const mainGroupItem: React.CSSProperties = {
+    flex: '1 40%',
+}

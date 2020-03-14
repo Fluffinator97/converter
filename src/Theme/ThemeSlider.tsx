@@ -1,7 +1,7 @@
 import React from 'react';
 import './ThemeSlider.css';
-import Heads from './assets/heads.png'
-import Tails from './assets/tails.png'
+import Heads from '../assets/heads.png'
+import Tails from '../assets/tails.png'
 
 interface Props {
   isOn: boolean,
