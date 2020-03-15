@@ -7,6 +7,7 @@ interface Props {
 }
 
 export default function Layout(props: Props) {
+    
     const [value, setValue] = useState(false);
 
     function toggleTheme() {
@@ -16,7 +17,7 @@ export default function Layout(props: Props) {
             document.documentElement.classList.remove("color-theme-in-transition");
         }, 1000);
     }
-
+    
     return (
         <div style={wrapper}>
             <section>

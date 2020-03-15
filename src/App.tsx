@@ -10,19 +10,22 @@ import ErrorBoundary from './ErrorBoundary';
 export default function App() {
   return (
     <div className="App">
-        <nav style={wrapper}>
-          <ul>
-            <li>
-              <Link to="/">Home</Link>
-            </li>
-            <li>
-              <Link to="/graph">Graph</Link>
-            </li>
-            <li>
-              <Link to="/about">About</Link>
-            </li>
-          </ul>
-        </nav>
+       <ErrorBoundary>
+
+          <nav style={wrapper}>
+            <ul>
+              <li>
+                <Link to="/">Home</Link>
+              </li>
+              <li>
+                <Link to="/graph">Graph</Link>
+              </li>
+              <li>
+                <Link to="/about">About</Link>
+              </li>
+            </ul>
+          </nav>
+       </ErrorBoundary>
 
         <Switch>
           
