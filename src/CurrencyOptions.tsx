@@ -56,7 +56,7 @@ export default class CurrencyOptions extends React.Component<Props, State> {
                 fromCurrency: dataArray[0].base,
                 toCurrency: defaultCurrency,
                 fromOptions: [...Object.keys(dataArray[0].rates), dataArray[0].base],
-                toOptions: [...Object.keys(dataArray[0].rates)],
+                toOptions: [...Object.keys(dataArray[0].rates), dataArray[0].base],
                 exchangeRate: (dataArray[0].rates[defaultCurrency]),
             })
 
@@ -101,29 +101,45 @@ export default class CurrencyOptions extends React.Component<Props, State> {
 
     handleClick(event: { preventDefault: () => void }) {
         event.preventDefault()
-        this.setState(state => ({
-            isToggleOn: !state.isToggleOn
-        }));
-        console.log(this.state.isToggleOn)
+        this.setState({
+            fromCurrency: this.state.toCurrency,
+            toCurrency: this.state.fromCurrency
+        })
     }
 
     async update(fromCurrency: string, toCurrency: string) {
-        try {
-            const responses = await Promise.all([
-                fetch(`https://api.exchangeratesapi.io/latest?base=${fromCurrency}&symbols=${toCurrency}`),
-                fetch('https://restcountries.eu/rest/v2/all?fields=name;currencies;flag')])
-            const dataArray = await Promise.all(responses.map((res) => res.json()))
+        if (fromCurrency === 'EUR' && toCurrency === 'EUR'){
             this.setState({
-                exchangeRate: (dataArray[0].rates[toCurrency]),
-                fromFlag: this.currency2flag(fromCurrency, dataArray[1]),
-                toFlag: this.currency2flag(toCurrency, dataArray[1])
+                exchangeRate: 1,
+                fromFlag: EUR,
+                toFlag: EUR
             })
-        } catch (error) {
-            this.setState({
-                isLoaded: true,
-                error
-            })
-            console.log(error)
+        } 
+        else{
+            try {
+                const responses = await Promise.all([
+                    fetch(`https://api.exchangeratesapi.io/latest?base=${fromCurrency}&symbols=${toCurrency}`),
+                    fetch('https://restcountries.eu/rest/v2/all?fields=name;currencies;flag')])
+                const dataArray = await Promise.all(responses.map((res) => res.json()))
+                if (fromCurrency === 'EUR' && toCurrency === 'EUR'){
+                    this.setState({
+                        exchangeRate: 1,
+                        fromFlag: this.currency2flag(fromCurrency, dataArray[1]),
+                    toFlag: this.currency2flag(toCurrency, dataArray[1])
+                    })
+                }
+                                this.setState({
+                    exchangeRate: (dataArray[0].rates[toCurrency]),
+                    fromFlag: this.currency2flag(fromCurrency, dataArray[1]),
+                    toFlag: this.currency2flag(toCurrency, dataArray[1])
+                })
+            } catch (error) {
+                this.setState({
+                    isLoaded: true,
+                    error
+                })
+                console.log(error)
+            }
         }
     }
 
@@ -132,6 +148,7 @@ export default class CurrencyOptions extends React.Component<Props, State> {
         if (this.state.toCurrency !== prevState.toCurrency || this.state.fromCurrency !== prevState.fromCurrency) {
             this.update(this.state.fromCurrency, this.state.toCurrency)
         }
+
     }
 
     changeCurrency = (event: { target: { name: string; value: string } }) => {
@@ -160,12 +177,10 @@ export default class CurrencyOptions extends React.Component<Props, State> {
 
     changeDisplayPage = (value: string) => {
         if (value === 'about') {
-            console.log('test1233')
-            return <About/>
+            return <About />
         }
         else if (value === 'graph') {
-            console.log('test')
-            return <LineGraph toCurrency={this.state.toCurrency} fromCurrency={this.state.fromCurrency}/>
+            return <LineGraph toCurrency={this.state.toCurrency} fromCurrency={this.state.fromCurrency} />
         }
         else {
             return <Image imageSrc={artWork} imageWidth={'100%'} />
@@ -233,6 +248,7 @@ const mainWrapper: React.CSSProperties = {
     display: 'flex',
     flexDirection: 'row',
     flexWrap: 'wrap',
+    padding: '2rem',
     justifyItems: 'space-between',
     alignItems: 'center',
     height: '100vh'

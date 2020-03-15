@@ -1,5 +1,5 @@
 import React from 'react'
-import Chart from "chart.js";
+import Chart from "chart.js"
 
 
 interface Props {
@@ -32,7 +32,7 @@ export default class LineGraph extends React.Component<Props, State>{
         }
     }
 
-    chartRef = React.createRef() as any;
+    chartRef = React.createRef() as any
 
     componentDidMount() {
         console.log('MOUNT')
@@ -56,9 +56,9 @@ export default class LineGraph extends React.Component<Props, State>{
 
 
             }).catch(error => {
-                console.log(error);
+                console.log(error)
 
-            });
+            })
     }
 
     getLabel(values: number[]) {
@@ -72,13 +72,14 @@ export default class LineGraph extends React.Component<Props, State>{
         return test
     }
 
+    
     componentDidUpdate(prevProps: Props, prevState: State) {
         console.log('UPDATE')
         if (this.props.toCurrency !== prevProps.toCurrency || this.props.fromCurrency !== prevProps.fromCurrency) {
             this.fetchData()
         }
         if (JSON.stringify(this.state.values) !== JSON.stringify(prevState.values)) {
-            const myChartRef = this.chartRef.current.getContext("2d");
+            const myChartRef = this.chartRef.current.getContext("2d")
             new Chart(myChartRef, {
                 type: "line",
 
@@ -101,11 +102,15 @@ export default class LineGraph extends React.Component<Props, State>{
     render() {
         return (
             <div>
-                <canvas
+                <canvas style={canvasStyle}
                     id="myChart"
                     ref={this.chartRef}
                 />
             </div>
         )
     }
+}
+
+const canvasStyle: React.CSSProperties = {
+width:'100%',
 }

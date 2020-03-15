@@ -34,17 +34,7 @@ html, body, body>div {
   display: flex;
 }
 
-section {
-  position: absolute;
-  font-family: 'Raleway', sans-serif;
-  font-weight: bold;
-  font-size: 4rem;
-  line-height: 110%;
-  width: max-content;
-  top: 5%;
-  left: 7%;
-  color: var(--primaryText);
-}
+
 
 body {
   background: url(./assets/blob5.png) no-repeat bottom right fixed, var(--primaryBg);
@@ -67,33 +57,3 @@ select {
   color: var(--secondaryText);
 }
 
-.text {
-  margin: 0;
-  line-height: 0.55;
-}
-
-span {
-  display: inline-block;
-  width:20px;
-}
-
-.stack {
-  display: block;
-}
-
-@keyframes bounce {
-  from {
-    transform: translate3d(0, 0, 0);
-  }
-  to {
-    transform: translate3d(0, -10px, 0);
-  }
-}
-
-.bouncing {
-  animation: bounce 0.4s;
-  animation-iteration-count: infinite;
-  animation-direction: alternate;
-  font-family: "Times New Roman", Times, serif;
-  color: var(--primaryTheme)
-}
