@@ -4,34 +4,45 @@ import { Switch,Route,Link } from 'react-router-dom'
 import Graph from './Graph';
 import About from './About';
 import Image from './Image'
+import ErrorBoundary from './ErrorBoundary';
+
 
 export default function App() {
   return (
     <div className="App">
-        <nav style={wrapper}>
-          <ul>
-            <li>
-              <Link to="/">Home</Link>
-            </li>
-            <li>
-              <Link to="/graph">Graph</Link>
-            </li>
-            <li>
-              <Link to="/about">About</Link>
-            </li>
-          </ul>
-        </nav>
+       <ErrorBoundary>
+
+          <nav style={wrapper}>
+            <ul>
+              <li>
+                <Link to="/">Home</Link>
+              </li>
+              <li>
+                <Link to="/graph">Graph</Link>
+              </li>
+              <li>
+                <Link to="/about">About</Link>
+              </li>
+            </ul>
+          </nav>
+       </ErrorBoundary>
 
         <Switch>
           
           <Route path="/about">
-          <Layout displayImage={<About/>} />
+            <ErrorBoundary>
+              <Layout displayImage={<About/>} />
+            </ErrorBoundary>
           </Route>
           <Route path="/">
-            <Layout displayImage={<Image/>} />
+            <ErrorBoundary>
+              <Layout displayImage={<Image/>} />
+            </ErrorBoundary>
           </Route>
           <Route path="/graph">
-            <Layout displayImage={<Graph/>} />
+            <ErrorBoundary>
+              <Layout displayImage={<Graph/>} />
+            </ErrorBoundary>
           </Route>
         </Switch>
       </div>

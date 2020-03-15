@@ -4,14 +4,16 @@ import Chart from "chart.js";
 
 interface Props {
     toCurrency: string,
-fromCurrency:string
+    fromCurrency:string
 }
 
 interface State {
     today: string,
     lastMonth: string, 
     values: number[],
-    tags: string[]
+    tags: string[],
+    
+    
 }
 
 export default class LineGraph extends React.Component<Props,State>{
@@ -26,8 +28,9 @@ export default class LineGraph extends React.Component<Props,State>{
             lastMonth: today.getFullYear() + '-' + (today.getMonth()) + '-' + today.getDate(),
 
             values: [],
-            tags:[]
-     
+            tags:[],
+            
+            
             
         }
     }
