@@ -34,8 +34,6 @@ html, body, body>div {
   display: flex;
 }
 
-
-
 body {
   background: url(./assets/blob2.png) no-repeat bottom right fixed, var(--primaryBg);
   background-size: cover;
