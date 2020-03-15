@@ -3,6 +3,7 @@ import CurrencyOptions from '../CurrencyOptions'
 import ThemeSlider from '../Theme/ThemeSlider'
 import useMediaQuery from '@material-ui/core/useMediaQuery'
 import { Switch, Route, Link } from 'react-router-dom'
+import ErrorBoundary from '../ErrorBoundary'
 import './navStyle.css'
 
 
@@ -19,7 +20,7 @@ export default function Navigation() {
   }
   const matches = useMediaQuery('(max-width:600px)')
   function openNav() {
-    
+
     let Nav = document.querySelector('nav')
     if (Nav) {
       Nav.style.width = "25%"
@@ -48,14 +49,17 @@ export default function Navigation() {
           <p className="text">sw<span><span className="stack bouncing">.</span>
             <span className="stack">ı</span></span>tch</p>
         </section>
-        <nav>
-          <a className="closebtn" onClick={closeNav}>&times;</a>
-          <ul className="overlay-content">
-            <li><Link to="/">Home</Link></li>
-            <li><Link to="/trends">Trends</Link></li>
-            <li><Link to="/about">About</Link></li>
-          </ul>
-        </nav>
+        <ErrorBoundary>
+          <nav>
+            <a className="closebtn" onClick={closeNav}>&times;</a>
+            <ul className="overlay-content">
+
+              <li><Link to="/">Home</Link></li>
+              <li><Link to="/trends">Trends</Link></li>
+              <li><Link to="/about">About</Link></li>
+            </ul>
+          </nav>
+        </ErrorBoundary>
         <ThemeSlider
           isOn={value}
           handleToggle={() => {
@@ -67,13 +71,19 @@ export default function Navigation() {
 
       <Switch>
         <Route path="/trends">
-          <CurrencyOptions displayPage={'graph'} />
+          <ErrorBoundary>
+            <CurrencyOptions displayPage={'graph'} />
+          </ErrorBoundary>
         </Route>
         <Route path="/about">
-          <CurrencyOptions displayPage={'about'} />
+          <ErrorBoundary>
+            <CurrencyOptions displayPage={'about'} />
+          </ErrorBoundary>
         </Route>
         <Route path="/">
-          <CurrencyOptions displayPage={'home'} />
+          <ErrorBoundary>
+            <CurrencyOptions displayPage={'home'} />
+          </ErrorBoundary>
         </Route>
       </Switch>
 
