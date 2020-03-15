@@ -22,7 +22,6 @@ interface State {
     exchangeRate: number
     fromFlag: string
     toFlag: string
-    isToggleOn: boolean
 }
 export default class CurrencyOptions extends React.Component<Props, State> {
     constructor(props: Props) {
@@ -39,8 +38,7 @@ export default class CurrencyOptions extends React.Component<Props, State> {
             exchangeRate: 1,
             fromFlag: '',
             toFlag: '',
-            isToggleOn: true
-        }
+         }
     }
 
     async componentDidMount() {
@@ -177,7 +175,7 @@ export default class CurrencyOptions extends React.Component<Props, State> {
 
     changeDisplayPage = (value: string) => {
         if (value === 'about') {
-            return <About />
+           return <About />
         }
         else if (value === 'graph') {
             return <LineGraph toCurrency={this.state.toCurrency} fromCurrency={this.state.fromCurrency} />
@@ -208,7 +206,7 @@ export default class CurrencyOptions extends React.Component<Props, State> {
 
             return (
                 <div style={mainWrapper}>
-                    <div style={this.state.isToggleOn ? { ...defaultContainer, ...wrapper, ...mainGroupItem } : { ...invertedContainer, ...wrapper, ...mainGroupItem }}>
+                    <div style={{...wrapper, ...mainGroupItem}}>
                         <div style={groupItem}>
                             <CurrencyRow
                                 name={'from'}
@@ -222,7 +220,7 @@ export default class CurrencyOptions extends React.Component<Props, State> {
                             <Flag flagImage={this.state.fromFlag} />
                         </div>
                         <SyncIcon style={{ fontSize: 50 }} onClick={(event: { preventDefault: () => void }) => this.handleClick(event)} />
-                        <div style={this.state.isToggleOn ? { ...groupItem } : { ...invertedContainer, ...groupItem }}>
+                        <div style={groupItem}>
                             <CurrencyRow
                                 name={'to'}
                                 nameInput={'toInput'}
@@ -246,7 +244,6 @@ export default class CurrencyOptions extends React.Component<Props, State> {
 
 const mainWrapper: React.CSSProperties = {
     display: 'flex',
-    flexDirection: 'row',
     flexWrap: 'wrap',
     padding: '2rem',
     justifyItems: 'space-between',

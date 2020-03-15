@@ -37,8 +37,8 @@ html, body, body>div {
 
 
 body {
-  background: url(./assets/blob5.png) no-repeat bottom right fixed, var(--primaryBg);
-  background-size: contain;
+  background: url(./assets/blob2.png) no-repeat bottom right fixed, var(--primaryBg);
+  background-size: cover;
   color: var(--primaryText);
 }
 
@@ -57,3 +57,6 @@ select {
   color: var(--secondaryText);
 }
 
+/* canvas{
+  background-color: rgba(37,198,144,0.5);
+} */

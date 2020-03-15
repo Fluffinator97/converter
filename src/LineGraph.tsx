@@ -39,6 +39,10 @@ export default class LineGraph extends React.Component<Props, State>{
         this.fetchData()
     }
 
+    cssVar(name: string) {
+        return getComputedStyle(document.documentElement).getPropertyValue(name);
+    }
+
     fetchData() {
         fetch(`https://api.exchangeratesapi.io/history?start_at=${this.state.lastMonth}&end_at=${this.state.today}&base=${this.props.fromCurrency}`)
             .then(res =>
@@ -72,7 +76,7 @@ export default class LineGraph extends React.Component<Props, State>{
         return test
     }
 
-    
+
     componentDidUpdate(prevProps: Props, prevState: State) {
         console.log('UPDATE')
         if (this.props.toCurrency !== prevProps.toCurrency || this.props.fromCurrency !== prevProps.fromCurrency) {
@@ -85,17 +89,68 @@ export default class LineGraph extends React.Component<Props, State>{
 
                 data: {
                     labels: this.state.tags,
+
                     datasets: [
+
                         {
+
                             label: "Exchange Rates",
                             data: this.state.values,
+                            backgroundColor: "rgba(0, 100, 0, 0.5)",
+                            borderColor: "rgba(0, 100, 0, 1)",
+                            borderWidth: 3,
+                            pointBackgroundColor: this.cssVar('--primaryText'),
+
+                            pointRadius: 5,
+
+                            pointBorderWidth: 2,
+
                         }
                     ]
                 },
                 options: {
-                    events: ['null']
+                    events: ['null'],
+                    legend: {
+                        display: true,
+                        position: 'top',
+                        labels: {
+                            boxWidth: 80,
+                            fontColor: this.cssVar('--primaryText')
+                        }
+                    },
+                    scales: {
+                        xAxes: [{
+                            gridLines: {
+                                color: this.cssVar('--primaryText')
+                            },
+                            scaleLabel: {
+                                display: false,
+                                labelString: "Days",
+
+                            },
+                            ticks: {
+                                fontColor: this.cssVar('--primaryText'),
+                                fontStyle: "bold",
+                            }
+                        }],
+                        yAxes: [{
+                            gridLines: {
+                                color: this.cssVar('--primaryText'),
+                            },
+                            scaleLabel: {
+                                display: true,
+                                labelString: `${this.props.fromCurrency} vs ${this.props.toCurrency}`,
+                                fontColor: this.cssVar('--primaryText'),
+                                fontStyle: "bold",
+                            },
+                            ticks: {
+                                fontColor: this.cssVar('--primaryText'),
+                                fontStyle: "bold",
+                            }
+                        }]
+                    }
                 }
-            });
+            })
         }
     }
 
@@ -112,5 +167,5 @@ export default class LineGraph extends React.Component<Props, State>{
 }
 
 const canvasStyle: React.CSSProperties = {
-width:'100%',
+    width: '100%',
 }
