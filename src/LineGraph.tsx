@@ -11,7 +11,9 @@ interface State {
     today: string,
     lastMonth: string,
     values: number[],
-    tags: string[]
+    tags: string[],
+    
+    
 }
 
 export default class LineGraph extends React.Component<Props, State>{
