@@ -1,19 +1,13 @@
 import React from 'react'
-import CurrencyOptions from './CurrencyOptions'
-import { listenerCount } from 'cluster';
-
 
 interface Props {
-    fromCurrency: string
-    toCurrency: string
-    // What Viktot said when we should have when i asked him
-    // currencyTranslations: { fromCurrency: string, toCurrency: string }[]
+    currencyTranslations: { fromCurrency: string, toCurrency: string }[]
 }
 
 interface State {
-    list: string[]
+    list: any[]
 }
-export default class Favorit extends React.Component<Props, State>{
+export default class Favorite extends React.Component<Props, State>{
     constructor(props: Props) {
         super(props)
         this.state = {
@@ -22,16 +16,31 @@ export default class Favorit extends React.Component<Props, State>{
     }
 
     addItem = (event: { preventDefault: () => void; }) => {
-        if (this.props.fromCurrency !== null && this.props.toCurrency !== null) {
-            event.preventDefault();
-            let favList = []
-            favList.push(this.props.fromCurrency,'   and   ', this.props.toCurrency)
+        let favList = this.state.list
+        let favGroup: {
+            fromCurrency: string
+            toCurrency: string
+            display: string
+        }
+        if (this.props.currencyTranslations !== null && favList.length <= 4) {
+            event.preventDefault()
+            if (favList.some(item => item.display ===(`${this.props.currencyTranslations[0].fromCurrency} vs ${this.props.currencyTranslations[0].toCurrency}`))) { }
+            else {
+                favGroup = {
+                    fromCurrency: `${this.props.currencyTranslations[0].fromCurrency}`,
+                    toCurrency: this.props.currencyTranslations[0].toCurrency,
+                    display: `${this.props.currencyTranslations[0].fromCurrency} vs ${this.props.currencyTranslations[0].toCurrency}`
+                }
+                favList.push(favGroup)
+            }
             this.setState({
                 list: favList
             })
         }
     }
+    showFav = (e: any) => {
 
+    }
     render() {
         console.log(this.state.list)
         return (
@@ -41,9 +50,10 @@ export default class Favorit extends React.Component<Props, State>{
                     <div style={bindingBox}>
                         <header style={boxHeader}>Favorits</header>
                     </div>
-                    <ul id='favoritList'>
-                        {this.state.list}
-                    </ul>
+                    {this.state.list.map(item => {
+                        return <li
+                            key={item.display}>{item.display}</li>
+                    })}
                 </div>
             </div>
         )

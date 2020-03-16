@@ -7,6 +7,7 @@ import LineGraph from './LineGraph'
 import Image from './Image'
 import About from './About'
 import artWork from "./assets/18920.png"
+import Favorite from './Favorite'
 interface Props {
     displayPage: string
 }
@@ -175,7 +176,8 @@ export default class CurrencyOptions extends React.Component<Props, State> {
 
     changeDisplayPage = (value: string) => {
         if (value === 'about') {
-           return <About />
+           return <Favorite 
+           currencyTranslations={[{fromCurrency: this.state.fromCurrency, toCurrency:this.state.toCurrency}]}/>
         }
         else if (value === 'graph') {
             return <LineGraph toCurrency={this.state.toCurrency} fromCurrency={this.state.fromCurrency} />
