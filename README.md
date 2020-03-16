@@ -14,6 +14,8 @@ A Currency Converter WebApp for the international traveller or trader.
 
 ## Installation
 This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+To install all the dependencies first run:
+### `npm install`
 In the project directory, you can run:
 ### `npm start`
 

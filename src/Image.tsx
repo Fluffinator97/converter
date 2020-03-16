@@ -1,13 +1,15 @@
-import React from 'react';
-import artWork from "./assets/18920.png";
+import React from 'react' 
 
-export default function Image() {
+
+interface Props{
+    imageSrc: string
+    imageWidth: string
+}
+
+export default function Image(props: Props) {
     return (
-       <img style={imageStyle} src={artWork} alt=""/>
+       <img style={{width: props.imageWidth}} src={props.imageSrc} alt=""/>
     )
 }
 
-const imageStyle: React.CSSProperties ={
-    width: '100%',
-}
 
