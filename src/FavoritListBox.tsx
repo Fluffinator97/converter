@@ -4,8 +4,10 @@ import { listenerCount } from 'cluster';
 
 
 interface Props {
-    fromCurrency: string,
-    toCurrency: string,
+    fromCurrency: string
+    toCurrency: string
+    // What Viktot said when we should have when i asked him
+    // currencyTranslations: { fromCurrency: string, toCurrency: string }[]
 }
 
 interface State {
@@ -23,14 +25,12 @@ export default class Favorit extends React.Component<Props, State>{
         if (this.props.fromCurrency !== null && this.props.toCurrency !== null) {
             event.preventDefault();
             let favList = []
-            favList.push(this.props.fromCurrency, this.props.toCurrency)
+            favList.push(this.props.fromCurrency,'   and   ', this.props.toCurrency)
             this.setState({
                 list: favList
             })
         }
     }
-
-
 
     render() {
         console.log(this.state.list)
@@ -40,7 +40,6 @@ export default class Favorit extends React.Component<Props, State>{
                 <div style={boxStyling} className="favoritBox">
                     <div style={bindingBox}>
                         <header style={boxHeader}>Favorits</header>
-                        {/*  <button style={buttonStyling} itemID='openCurrencyList' >Add Favorit</button> */}
                     </div>
                     <ul id='favoritList'>
                         {this.state.list}
