@@ -267,13 +267,6 @@ const wrapper: React.CSSProperties = {
     margin: '10rem 0',
 }
 
-const defaultContainer: React.CSSProperties = {
-    flexDirection: 'row',
-}
-
-const invertedContainer: React.CSSProperties = {
-    flexDirection: 'row-reverse',
-}
 
 const groupItem: React.CSSProperties = {
     display: 'flex',
@@ -285,3 +278,4 @@ const groupItem: React.CSSProperties = {
 const mainGroupItem: React.CSSProperties = {
     flex: '1 40%',
 }
+
