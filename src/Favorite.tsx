@@ -7,7 +7,7 @@ interface Props {
 }
 
 interface State {
-    list: any[]
+    list:  { fromCurrency: string, toCurrency: string, display: string}[]
 }
 export default class Favorite extends React.Component<Props, State>{
     constructor(props: Props) {

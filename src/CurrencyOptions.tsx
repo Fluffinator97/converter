@@ -10,6 +10,7 @@ import Favorite from './Favorite'
 interface Props {
     displayPage: string
 }
+
 interface State {
     error: null
     isLoaded: boolean
@@ -22,6 +23,7 @@ interface State {
     fromFlag: string
     toFlag: string
 }
+
 export default class CurrencyOptions extends React.Component<Props, State> {
     constructor(props: Props) {
         super(props)

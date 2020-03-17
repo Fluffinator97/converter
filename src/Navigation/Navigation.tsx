@@ -16,8 +16,8 @@ export default function Navigation() {
     window.setTimeout(() => {
       document.documentElement.classList.remove("color-theme-in-transition")
     }, 1000)
-
   }
+
   const matches = useMediaQuery('(max-width:600px)')
   function openNav() {
 
@@ -29,8 +29,6 @@ export default function Navigation() {
       Nav.style.width = "100%"
     }
   }
-
-
 
   function closeNav() {
     let Nav = document.querySelector('nav')
@@ -52,7 +50,7 @@ export default function Navigation() {
             <span className="stack">ı</span></span>tch</p>
         </section>
         <ErrorBoundary>
-          <nav>
+          <nav onClick={closeNav}>
             <a className="closebtn" onClick={closeNav}>&times;</a>
             <ul className="overlay-content">
 

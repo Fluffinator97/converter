@@ -52,7 +52,7 @@ export default class LineGraph extends React.Component<Props, State>{
                 res.json()
             )
             .then(data => {
-                let rates: any = Object.values(data.rates)
+                let rates: any[] = Object.values(data.rates)
 
                 const values: number[] = []
                 for (const rate of rates) {
