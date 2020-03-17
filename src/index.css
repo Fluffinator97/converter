@@ -54,7 +54,3 @@ select {
   background: var(--primaryText);
   color: var(--secondaryText);
 }
-
-/* canvas{
-  background-color: rgba(37,198,144,0.5);
-} */

@@ -16,8 +16,8 @@ export default function Navigation() {
     window.setTimeout(() => {
       document.documentElement.classList.remove("color-theme-in-transition")
     }, 1000)
-
   }
+
   const matches = useMediaQuery('(max-width:600px)')
   function openNav() {
 
@@ -50,13 +50,14 @@ export default function Navigation() {
             <span className="stack">ı</span></span>tch</p>
         </section>
         <ErrorBoundary>
-          <nav>
+          <nav onClick={closeNav}>
             <a className="closebtn" onClick={closeNav}>&times;</a>
             <ul className="overlay-content">
 
               <li><Link to="/">Home</Link></li>
+              <li><Link to="/fav">Favorite</Link></li>
               <li><Link to="/trends">Trends</Link></li>
-              <li><Link to="/about">About</Link></li>
+
             </ul>
           </nav>
         </ErrorBoundary>
@@ -75,9 +76,9 @@ export default function Navigation() {
             <CurrencyOptions displayPage={'graph'} />
           </ErrorBoundary>
         </Route>
-        <Route path="/about">
+        <Route path="/fav">
           <ErrorBoundary>
-            <CurrencyOptions displayPage={'about'} />
+            <CurrencyOptions displayPage={'fav'} />
           </ErrorBoundary>
         </Route>
         <Route path="/">

@@ -5,17 +5,17 @@ import SyncIcon from '@material-ui/icons/Sync'
 import EUR from './assets/EUR.svg'
 import LineGraph from './LineGraph'
 import Image from './Image'
-import About from './About'
 import artWork from "./assets/18920.png"
+import Favorite from './Favorite'
 interface Props {
     displayPage: string
 }
+
 interface State {
     error: null
     isLoaded: boolean
     amountInFromCurrency: boolean
-    toOptions: string[]
-    fromOptions: string[]
+    options: string[]
     fromCurrency: string
     toCurrency: string
     amount: number
@@ -23,6 +23,7 @@ interface State {
     fromFlag: string
     toFlag: string
 }
+
 export default class CurrencyOptions extends React.Component<Props, State> {
     constructor(props: Props) {
         super(props)
@@ -30,15 +31,14 @@ export default class CurrencyOptions extends React.Component<Props, State> {
             error: null,
             isLoaded: false,
             amountInFromCurrency: true,
-            toOptions: [],
-            fromOptions: [],
+            options: [],
             fromCurrency: '',
             toCurrency: '',
             amount: 1,
             exchangeRate: 1,
             fromFlag: '',
             toFlag: '',
-         }
+        }
     }
 
     async componentDidMount() {
@@ -53,8 +53,7 @@ export default class CurrencyOptions extends React.Component<Props, State> {
                 isLoaded: true,
                 fromCurrency: dataArray[0].base,
                 toCurrency: defaultCurrency,
-                fromOptions: [...Object.keys(dataArray[0].rates), dataArray[0].base],
-                toOptions: [...Object.keys(dataArray[0].rates), dataArray[0].base],
+                options: [...Object.keys(dataArray[0].rates), dataArray[0].base],
                 exchangeRate: (dataArray[0].rates[defaultCurrency]),
             })
 
@@ -106,27 +105,27 @@ export default class CurrencyOptions extends React.Component<Props, State> {
     }
 
     async update(fromCurrency: string, toCurrency: string) {
-        if (fromCurrency === 'EUR' && toCurrency === 'EUR'){
+        if (fromCurrency === 'EUR' && toCurrency === 'EUR') {
             this.setState({
                 exchangeRate: 1,
                 fromFlag: EUR,
                 toFlag: EUR
             })
-        } 
-        else{
+        }
+        else {
             try {
                 const responses = await Promise.all([
                     fetch(`https://api.exchangeratesapi.io/latest?base=${fromCurrency}&symbols=${toCurrency}`),
                     fetch('https://restcountries.eu/rest/v2/all?fields=name;currencies;flag')])
                 const dataArray = await Promise.all(responses.map((res) => res.json()))
-                if (fromCurrency === 'EUR' && toCurrency === 'EUR'){
+                if (fromCurrency === 'EUR' && toCurrency === 'EUR') {
                     this.setState({
                         exchangeRate: 1,
                         fromFlag: this.currency2flag(fromCurrency, dataArray[1]),
-                    toFlag: this.currency2flag(toCurrency, dataArray[1])
+                        toFlag: this.currency2flag(toCurrency, dataArray[1])
                     })
                 }
-                                this.setState({
+                this.setState({
                     exchangeRate: (dataArray[0].rates[toCurrency]),
                     fromFlag: this.currency2flag(fromCurrency, dataArray[1]),
                     toFlag: this.currency2flag(toCurrency, dataArray[1])
@@ -173,9 +172,20 @@ export default class CurrencyOptions extends React.Component<Props, State> {
         }
     }
 
+    showFav = (event: any) => {
+        this.setState({
+            fromCurrency: event.target.getAttribute('data-fromcurrency'),
+            toCurrency: event.target.getAttribute('data-tocurrency')
+        })
+        
+        
+    }
+
     changeDisplayPage = (value: string) => {
-        if (value === 'about') {
-           return <About />
+        if (value === 'fav') {
+            return <Favorite
+                currencyTranslations={[{ fromCurrency: this.state.fromCurrency, toCurrency: this.state.toCurrency }]}
+                showFav={(event) => this.showFav(event)} />
         }
         else if (value === 'graph') {
             return <LineGraph toCurrency={this.state.toCurrency} fromCurrency={this.state.fromCurrency} />
@@ -203,15 +213,14 @@ export default class CurrencyOptions extends React.Component<Props, State> {
                 toAmount = this.state.amount
                 fromAmount = this.state.amount / this.state.exchangeRate
             }
-
             return (
                 <div style={mainWrapper}>
-                    <div style={{...wrapper, ...mainGroupItem}}>
+                    <div style={{ ...wrapper, ...mainGroupItem }}>
                         <div style={groupItem}>
                             <CurrencyRow
                                 name={'from'}
                                 nameInput={'fromInput'}
-                                currencyOptions={(this.state.fromOptions)}
+                                currencyOptions={(this.state.options)}
                                 selectedCurrency={this.state.fromCurrency}
                                 onChangeCurrency={(event) => this.changeCurrency(event)}
                                 onChangeAmount={(event) => this.changeAmount(event)}
@@ -224,7 +233,7 @@ export default class CurrencyOptions extends React.Component<Props, State> {
                             <CurrencyRow
                                 name={'to'}
                                 nameInput={'toInput'}
-                                currencyOptions={(this.state.toOptions)}
+                                currencyOptions={(this.state.options)}
                                 selectedCurrency={this.state.toCurrency}
                                 onChangeCurrency={(event) => this.changeCurrency(event)}
                                 onChangeAmount={(event) => this.changeAmount(event)}
@@ -260,13 +269,6 @@ const wrapper: React.CSSProperties = {
     margin: '10rem 0',
 }
 
-const defaultContainer: React.CSSProperties = {
-    flexDirection: 'row',
-}
-
-const invertedContainer: React.CSSProperties = {
-    flexDirection: 'row-reverse',
-}
 
 const groupItem: React.CSSProperties = {
     display: 'flex',
@@ -278,3 +280,4 @@ const groupItem: React.CSSProperties = {
 const mainGroupItem: React.CSSProperties = {
     flex: '1 40%',
 }
+
