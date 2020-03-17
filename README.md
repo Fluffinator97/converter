@@ -24,8 +24,8 @@ In the project directory, you can run:
 ## Credits
 
 ### API
-[Exchange rate](https://exchangeratesapi.io/)
-[Flags](https://restcountries.eu/)
+* [Exchange rate](https://exchangeratesapi.io/)
+* [Flags](https://restcountries.eu/)
 
 ### Fonts
 GoogleFont:'Raleway'
@@ -34,6 +34,6 @@ GoogleFont:'Raleway'
 Image:freepik.com
 
 ### GitHub link
-https://github.com/Fluffinator97/converter
+[RepoLink](https://github.com/Fluffinator97/converter)
 
 
