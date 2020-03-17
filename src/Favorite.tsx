@@ -1,5 +1,5 @@
 import React from 'react'
-import DeleteOutlineIcon from '@material-ui/icons/DeleteOutline';
+import './index.css'
 
 interface Props {
     currencyTranslations: { fromCurrency: string, toCurrency: string }[]
@@ -99,7 +99,7 @@ export default class Favorite extends React.Component<Props, State>{
 
 const wrapper: React.CSSProperties = {
     width: '100%',
-    height:'15rem',
+    height: '15rem',
     display: 'flex',
     justifyItems: 'space-evenly',
     alignItems: 'center',
@@ -119,19 +119,17 @@ const groupItem: React.CSSProperties = {
     justifyContent: 'center',
     alignItems: 'center',
     listStyleType: 'none',
-    padding:0
+    padding: 0
 }
 
 const buttonStyle: React.CSSProperties = {
-
     boxShadow: '3px 4px 0px 0px #276873',
-    background: 'linear-gradient(to bottom, #599bb3 5%, #408c99 100%)',
-    backgroundColor: '#599bb3',
+    backgroundColor: 'var(--primaryText)',
     borderRadius: '1rem',
     border: '1px solid #29668f',
     display: 'inline-block',
     cursor: 'pointer',
-    color: '#ffffff',
+    color: 'var(--secondaryText)',
     padding: '0.8rem',
     textDecoration: 'none',
     textShadow: '0px 1px 0px #3d768a',
