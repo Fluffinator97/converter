@@ -180,7 +180,7 @@ export default class CurrencyOptions extends React.Component<Props, State> {
     }
 
     changeDisplayPage = (value: string) => {
-        if (value === 'about') {
+        if (value === 'fav') {
             return <Favorite
                 currencyTranslations={[{ fromCurrency: this.state.fromCurrency, toCurrency: this.state.toCurrency }]}
                 showFav={(event) => this.showFav(event)} />

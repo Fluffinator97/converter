@@ -1,4 +1,5 @@
 import React from 'react'
+import DeleteOutlineIcon from '@material-ui/icons/DeleteOutline';
 
 interface Props {
     currencyTranslations: { fromCurrency: string, toCurrency: string }[]
@@ -27,7 +28,7 @@ export default class Favorite extends React.Component<Props, State>{
         if (oldFav) {
             favList = (JSON.parse(oldFav))
         }
-        if (this.props.currencyTranslations !== null && favList.length <= 4) {
+        if (this.props.currencyTranslations !== null && favList.length <= 3) {
             event.preventDefault()
 
             if (favList.some(item => item.display === (`${this.props.currencyTranslations[0].fromCurrency} vs ${this.props.currencyTranslations[0].toCurrency}`))) { }
@@ -71,58 +72,61 @@ export default class Favorite extends React.Component<Props, State>{
     render() {
         console.log(this.state.list)
         return (
-            <div>
-                <button onClick={this.addItem}>Add</button>
-                <div style={boxStyling} className="favoriteBox">
-                    <div style={bindingBox}>
-                        <header style={boxHeader}>Favorites</header>
-                    </div>
+            <div style={wrapper}>
+                <button style={buttonStyle} onClick={this.addItem}>Add Favorite</button>
+
+                <div style={container} >
+
                     {this.state.list.map((item, index) => {
-                        return <li key={item.display}><p onClick={this.props.showFav}
+                        return <li key={item.display} style={item}><p onClick={this.props.showFav}
                             data-fromcurrency={item.fromCurrency}
                             data-tocurrency={item.toCurrency}
-                            >{item.display}
+
+                        >{item.display}
                         </p>
-                            <button className="button" type="button" value="delete" data-key={index} onClick={this.deleteItem}>Delete</button>
+                            <button style={buttonStyle} type="button" value="delete" data-key={index} onClick={this.deleteItem}>Delete</button>
                         </li>
                     })}
                 </div>
-            </div>
+
+            </div >
         )
     }
 }
 
+const container: React.CSSProperties = {
+    display: 'flex',
+    justifyContent: 'center',
+    alignItems: 'center',
+    listStyleType: 'none',
+    padding: '1rem',
+    margin:'2rem'
+}
+const wrapper: React.CSSProperties = {
+    borderRadius: '6px',
+    border: '1px solid #b2b8ad',
+    color: '#757d6f',
+    padding: '6px 24px',
+    textShadow: '0px 1px 0px #ced9bf',
+    display: 'flex',
+    flexDirection: 'column',
+    justifyContent: 'center',
+    alignItems: 'center'
 
-const countryList: React.CSSProperties = {
-
-    padding: 0,
-    margin: 0,
-    height: 300,
-    width: 500,
-    backgroundColor: 'white',
-    zIndex: 1,
-    position: 'absolute',
-    overflow: 'scroll',
 }
 
-const boxStyling: React.CSSProperties = {
-    padding: 0,
-    margin: 0,
-    height: 300,
-    width: 500,
-    marginLeft: '75%',
-    backgroundColor: 'white'
-}
 
-const boxHeader: React.CSSProperties = {
-    paddingTop: 10,
-    margin: 0,
-    height: 40,
-    width: '100%',
-    backgroundColor: 'pink',
-    textAlign: 'center',
-}
-
-const bindingBox: React.CSSProperties = {
-    display: 'flex'
+const buttonStyle: React.CSSProperties = {
+    boxShadow: '3px 4px 0px 0px #276873',
+    background: 'linear-gradient(to bottom, #599bb3 5%, #408c99 100%)',
+    backgroundColor: '#599bb3',
+    borderRadius: '1rem',
+    border: '1px solid #29668f',
+    display: 'inline-block',
+    cursor: 'pointer',
+    color: '#ffffff',
+    padding: '0.8rem',
+    textDecoration: 'none',
+    textShadow: '0px 1px 0px #3d768a',
+    margin:'2rem'
 }
