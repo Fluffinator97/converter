@@ -2,6 +2,7 @@ import React from 'react'
 
 interface Props {
     currencyTranslations: { fromCurrency: string, toCurrency: string }[]
+    showFav: ((event: React.MouseEvent<HTMLParagraphElement, MouseEvent>) => void)
 }
 
 interface State {
@@ -22,9 +23,14 @@ export default class Favorite extends React.Component<Props, State>{
             toCurrency: string
             display: string
         }
+        let oldFav = localStorage.getItem('favList')
+        if (oldFav) {
+            favList = (JSON.parse(oldFav))
+        }
         if (this.props.currencyTranslations !== null && favList.length <= 4) {
             event.preventDefault()
-            if (favList.some(item => item.display ===(`${this.props.currencyTranslations[0].fromCurrency} vs ${this.props.currencyTranslations[0].toCurrency}`))) { }
+
+            if (favList.some(item => item.display === (`${this.props.currencyTranslations[0].fromCurrency} vs ${this.props.currencyTranslations[0].toCurrency}`))) { }
             else {
                 favGroup = {
                     fromCurrency: `${this.props.currencyTranslations[0].fromCurrency}`,
@@ -32,27 +38,53 @@ export default class Favorite extends React.Component<Props, State>{
                     display: `${this.props.currencyTranslations[0].fromCurrency} vs ${this.props.currencyTranslations[0].toCurrency}`
                 }
                 favList.push(favGroup)
+                localStorage.setItem('favList', JSON.stringify(favList))
             }
+        }
+        this.setState({
+            list: favList
+        })
+    }
+
+    componentDidMount() {
+        const list = localStorage.getItem('favList') as string
+        const parsedList = JSON.parse(list)
+        if (list == null) {
+            return false
+        }
+        else {
             this.setState({
-                list: favList
+                list: parsedList,
             })
+            console.log(this.state.list)
         }
     }
-    showFav = (e: any) => {
 
+    deleteItem = (event: any) => {
+        let index = event.target.getAttribute('data-key')
+        let favList = JSON.parse(localStorage.getItem('favList') as string);
+        favList.splice(index, 1)
+        this.setState({ list: favList });
+        localStorage.setItem('favList', JSON.stringify(favList))
     }
+
     render() {
         console.log(this.state.list)
         return (
             <div>
                 <button onClick={this.addItem}>Add</button>
-                <div style={boxStyling} className="favoritBox">
+                <div style={boxStyling} className="favoriteBox">
                     <div style={bindingBox}>
-                        <header style={boxHeader}>Favorits</header>
+                        <header style={boxHeader}>Favorites</header>
                     </div>
-                    {this.state.list.map(item => {
-                        return <li
-                            key={item.display}>{item.display}</li>
+                    {this.state.list.map((item, index) => {
+                        return <li key={item.display}><p onClick={this.props.showFav}
+                            data-fromcurrency={item.fromCurrency}
+                            data-tocurrency={item.toCurrency}
+                            >{item.display}
+                        </p>
+                            <button className="button" type="button" value="delete" data-key={index} onClick={this.deleteItem}>Delete</button>
+                        </li>
                     })}
                 </div>
             </div>

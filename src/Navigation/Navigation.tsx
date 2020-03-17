@@ -30,6 +30,8 @@ export default function Navigation() {
     }
   }
 
+  document.addEventListener(`click`, closeNav)
+
   function closeNav() {
     let Nav = document.querySelector('nav')
     if (Nav) {
